@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP&family=Playfair+Display&display=swap');
+
+body {
+  background-color: #101010;
+  color: #eeeeee;
+  font-family: 'Noto Serif JP', serif;
+  // font-family: 'Playfair Display', serif;
+  font-size: 20px;
+}
+
+textarea {
+  font-family: initial;
+}
+
+.page {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  height: 100vh;
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
+}
+
+.footer {
+  background-color: #000000;
+}
+
+.bg-brand {
+  color: #fff;
+  background-color: #7c4dff;
+}
+
+a {
+  color: #ccc;
+}
+
+input[type='radio'] {
+  display: none;
+}
+
+.item {
+  background: #222;
+  border-radius: 12px;
+  padding: 0.6rem 2.5rem;
+  border: 1px #444 solid;
+  color: #eee
+}
+
+.error_icon {
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid #eee;
+}
+
+.add-padding {
+  padding: 5px;
+}
+
+.note {
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+.modal-content {
+  box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.25);
+}
+
+.selected {
+  background-color: #673ab7c0;
+  border: 1px #673ab7 solid;
+}
