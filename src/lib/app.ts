@@ -2,7 +2,8 @@
 
 import { getTable } from "nostr-key-value";
 import { parse } from "date-fns";
-import { add } from 'lodash';
+import lodash from "lodash";
+const { add } = lodash;
 
 const relay = "wss://relay-jp.nostr.wirednet.jp";
 const npub = "a3c13ef4c9eccfde01bd9326a2ab08b2ad7dc57f3b77db77723f8e2ad7ba24d6";
@@ -47,7 +48,9 @@ export const formattedData = (
 
     // Compute the moving average
     if (formatted.count.length >= movingAvgSize) {
-      const movingAvgSum = formatted.count.slice(-movingAvgSize).reduce((a, b) => a + b, 0);
+      const movingAvgSum = formatted.count
+        .slice(-movingAvgSize)
+        .reduce((a, b) => a + b, 0);
       const movingAvg = movingAvgSum / movingAvgSize;
       formatted.movingAvg.push(movingAvg);
     } else {
