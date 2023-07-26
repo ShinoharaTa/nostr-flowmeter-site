@@ -52,7 +52,7 @@
     padding: 2px 7px;
     border: 1px solid #000;
     text-align: center;
-
+    height: 1.5rem;
   }
   td>span,
   th>span {
