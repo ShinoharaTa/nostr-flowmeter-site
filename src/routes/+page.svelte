@@ -18,7 +18,7 @@
     <BaseInfo />
   </div>
   <div class="p-2" />
-  <div class="row max-width mx-auto flex-row-reverse">
+  <div class="row max-width mx-auto">
     <div class="col-12 col-md-3 order-2">
       <DataTable {items} />
     </div>
