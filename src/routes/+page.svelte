@@ -17,12 +17,12 @@
   <div class="max-width mx-auto container">
     <BaseInfo />
   </div>
-  <div class="p-2"></div>
-  <div class="row max-width mx-auto">
-    <div class="col-3">
+  <div class="p-2" />
+  <div class="row max-width mx-auto flex-row-reverse">
+    <div class="col-12 col-md-3 order-2">
       <DataTable {items} />
     </div>
-    <div class="col-9">
+    <div class="col-12 col-md-9 order-1">
       <Charts {items} />
     </div>
   </div>

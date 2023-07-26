@@ -1,12 +1,13 @@
 <script lang="ts">
-  export let items: ChartDatasets;
   import { format, isSameDay, isSameHour } from "date-fns";
-  const formatted = [];
+  import type { ChartDatasets } from "$lib/app";
+  export let items: ChartDatasets;
+  const formatted: any = [];
   const sortedItems = {
     labels: items.labels.reverse(),
     count: items.count.reverse(),
   };
-  for (const i in sortedItems.labels) {
+  for (let i = 0; i < sortedItems.labels.length; i++) {
     formatted.push({
       date: sortedItems.labels[i],
       showDate:
@@ -50,10 +51,17 @@
 
 <style>
   .table-container {
-    max-height: 60vh;
+    max-height: 40vh;
     overflow-y: scroll;
     font-size: 12px;
+    border: 1px solid #000;
   }
+  @media (min-width: 768px) {
+    .table-container {
+      max-height: 60vh;
+    }
+  }
+
   .text-center {
     text-align: center;
   }
@@ -68,9 +76,7 @@
   }
   table {
     width: 100%;
-    /* border-collapse: collapse; */
   }
-  th,
   td {
     border-top: solid 1px #000;
     padding: 0 6px;

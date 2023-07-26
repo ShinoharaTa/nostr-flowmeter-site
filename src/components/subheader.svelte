@@ -1,6 +1,4 @@
 <script>
-  import { onMount } from "svelte";
-  import { goto } from "$app/navigation";
   import { page } from "$app/stores";
   import { parse, format, isValid } from "date-fns";
 
@@ -35,9 +33,18 @@
 <div>
   <div class="bg-light-sub">
     <div
-      class="max-width mx-auto d-flex justify-content-between align-items-center container"
+      class="max-width mx-auto d-md-flex justify-content-between align-items-center container flex-row-reverse pt-2"
     >
-      <div class="select-sector pt-2 pb-1 px-3 bg-white">
+      <div class="">
+        日付を選択：
+        <input
+          type="date"
+          class=""
+          bind:value={selectedDate}
+          on:change={selectDate}
+        />
+      </div>
+      <div class="select-sector pt-2 pb-1 px-3 bg-white mt-2">
         <label for="realtime" class="me-2">
           <input
             type="radio"
@@ -60,15 +67,6 @@
           />
           10分計測
         </label>
-      </div>
-      <div class="">
-        日付を選択：
-        <input
-          type="date"
-          class=""
-          bind:value={selectedDate}
-          on:change={selectDate}
-        />
       </div>
     </div>
   </div>
