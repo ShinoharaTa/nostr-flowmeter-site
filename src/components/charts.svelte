@@ -25,47 +25,103 @@
   import "chartjs-adapter-date-fns";
   import { onMount } from "svelte";
   export let items: ChartDatasets;
-  // const counts = data.map((item) => Number(item[1]));
-  // const movingAvg = movingAverage(counts, 10); // Compute a 3-point moving average
 
   const formatted = {
     labels: items.labels,
     datasets: [
       {
-        label: "Count",
+        type: "bar",
+        label: "投稿数",
         data: items.count,
-        color: "rgb(75, 192, 192)",
+        backgroundColor: "#58B2DC",
       },
+      // {
+      //   type: "line",
+      //   label: "移動平均",
+      //   data: items.movingAvg,
+      //   cubicInterpolationMode: "monotone",
+      //   borderColor: "#113285",
+      //   borderWidth: 1.2,
+      //   borderJoinStyle: "none",
+      //   pointStyle: false,
+      // },
+    ],
+  };
+  const formatted_avg = {
+    labels: items.labels,
+    datasets: [
+      // {
+      //   type: "bar",
+      //   label: "投稿数",
+      //   data: items.count,
+      //   backgroundColor: "#58B2DC",
+      // },
       {
         type: "line",
-        label: "Count",
+        label: "移動平均",
         data: items.movingAvg,
+        cubicInterpolationMode: "monotone",
+        borderColor: "#113285",
+        borderWidth: 1.2,
+        borderJoinStyle: "none",
+        pointStyle: false,
       },
     ],
   };
 
   let chartCanvas: any;
+  let chartCanvas_avg: any;
 
   function renderChart() {
-    let chart = new Chart(chartCanvas, {
-      type: "bar",
+    new Chart(chartCanvas, {
+      // type: "bar",
       data: formatted,
       options: {
+        animation: false,
+        responsive: true,
+        aspectRatio: 5,
         scales: {
           x: {
+            display: false,
             type: "time",
-            // time: {
-            //   unit: "minute",
-            // },
+            time: {
+              unit: "hour",
+            },
             title: {
               display: true,
-              text: "Time",
+              text: "計測時間",
             },
           },
           y: {
             title: {
               display: true,
-              text: "Count",
+              text: "投稿数",
+            },
+          },
+        },
+      },
+    });
+    new Chart(chartCanvas_avg, {
+      // type: "bar",
+      data: formatted_avg,
+      options: {
+        animation: false,
+        responsive: true,
+        scales: {
+          x: {
+            type: "time",
+            time: {
+              unit: "hour",
+            },
+            title: {
+              display: true,
+              text: "計測時間",
+            },
+          },
+          y: {
+            title: {
+              display: true,
+              text: "移動平均",
             },
           },
         },
@@ -80,7 +136,20 @@
   // options={
 </script>
 
-<canvas bind:this={chartCanvas} />
+<div class="graph_size">
+  <canvas bind:this={chartCanvas} />
+</div>
+<div>
+  <canvas bind:this={chartCanvas_avg} height="" />
+</div>
 
 <!-- <Bar
 /> -->
+
+<style>
+  .graph_size {
+    position: relative;
+    /* width: 1000px;
+    height: 30vh; */
+  }
+</style>

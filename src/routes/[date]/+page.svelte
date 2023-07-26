@@ -1,14 +1,17 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { formattedData, getGraphData } from "$lib/app";
-  import Charts from "../components/charts.svelte";
-  import DataTable from "../components/datatable.svelte";
-  import BaseInfo from "../components/baseinfo.svelte";
+  import Charts from "../../components/charts.svelte";
+  import DataTable from "../../components/datatable.svelte";
+  import BaseInfo from "../../components/baseinfo.svelte";
+  import { page } from "$app/stores";
+
+  const date: string = $page.params.date;
   let items: any = null;
   (async () => {
-    const result = await getGraphData("nostr-arrival-rate");
+    const result = await getGraphData(`nostr-arrival-rate_${date}`);
     if (!result) return;
-    items = formattedData(result, 10, 10);
+    items = formattedData(result, 10, 1);
     console.log(items);
   })();
 </script>

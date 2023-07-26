@@ -1,5 +1,3 @@
-// import { browser } from "$app/environment";
-
 import { getTable } from "nostr-key-value";
 import { parse } from "date-fns";
 import lodash from "lodash";

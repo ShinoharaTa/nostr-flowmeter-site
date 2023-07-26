@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP&family=Playfair+Display&display=swap');
 
 body {
-  background-color: #101010;
-  color: #eeeeee;
-  font-family: 'Noto Serif JP', serif;
+  // background-color: #101010;
+  // color: #eeeeee;
+  // font-family: 'Noto Serif JP', serif;
   // font-family: 'Playfair Display', serif;
-  font-size: 20px;
+  font-family: initial;
+  font-size: 13px;
 }
 
 textarea {
@@ -26,9 +26,14 @@ textarea {
   background-color: #000000;
 }
 
-.bg-brand {
+.bg-main {
   color: #fff;
-  background-color: #7c4dff;
+  background-color: #0B346E;
+}
+
+.bg-sub {
+  color: #fff;
+  background-color: #005CAF;
 }
 
 a {
@@ -66,7 +71,10 @@ input[type='radio'] {
   box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.25);
 }
 
-.selected {
-  background-color: #673ab7c0;
-  border: 1px #673ab7 solid;
+.max-width {
+  max-width: 960px;
+}
+
+.bg-light-sub {
+  background-color: #eee;
 }
