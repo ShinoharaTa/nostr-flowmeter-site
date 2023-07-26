@@ -35,27 +35,11 @@
         data: items.count,
         backgroundColor: "#58B2DC",
       },
-      // {
-      //   type: "line",
-      //   label: "移動平均",
-      //   data: items.movingAvg,
-      //   cubicInterpolationMode: "monotone",
-      //   borderColor: "#113285",
-      //   borderWidth: 1.2,
-      //   borderJoinStyle: "none",
-      //   pointStyle: false,
-      // },
     ],
   };
   const formatted_avg = {
     labels: items.labels,
     datasets: [
-      // {
-      //   type: "bar",
-      //   label: "投稿数",
-      //   data: items.count,
-      //   backgroundColor: "#58B2DC",
-      // },
       {
         type: "line",
         label: "移動平均",
@@ -107,6 +91,7 @@
       options: {
         animation: false,
         responsive: true,
+        aspectRatio: 1.3,
         scales: {
           x: {
             type: "time",
@@ -132,8 +117,6 @@
   onMount(() => {
     renderChart();
   });
-  // data={formatted}
-  // options={
 </script>
 
 <div class="graph_size">
@@ -143,13 +126,8 @@
   <canvas bind:this={chartCanvas_avg} height="" />
 </div>
 
-<!-- <Bar
-/> -->
-
 <style>
   .graph_size {
-    position: relative;
-    /* width: 1000px;
-    height: 30vh; */
+    width: 100%;
   }
 </style>
