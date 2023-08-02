@@ -1,6 +1,10 @@
 <script>
   import { page } from "$app/stores";
+  import { getRelay } from "$lib/config";
   import { parse, format, isValid } from "date-fns";
+
+  const relay = $page.params.relay;
+  const info = getRelay(relay) ?? null;
 
   let selectedDate = format(new Date(), "yyyy-MM-dd");
   let radioSelection = "0";
@@ -19,18 +23,28 @@
   const update = () => {
     if (radioSelection === "0") {
       selectedDate = format(new Date(), "yyyy-MM-dd");
-      location.href = "/";
+      location.href = `/${relay}`;
     }
     if (radioSelection === "1") {
-      location.href = "/" + format(new Date(), "yyyyMMdd");
+      location.href = `/${relay}/` + format(new Date(), "yyyyMMdd");
     }
   };
   const selectDate = () => {
-    location.href = "/" + format(new Date(selectedDate), "yyyyMMdd");
+    location.href = `/${relay}/` + format(new Date(selectedDate), "yyyyMMdd");
   };
 </script>
 
-<div>
+<div class="bg-light-sub">
+  <div
+    class="max-width mx-auto d-md-flex justify-content-between align-items-bottom pb-3 container flex-row-reverse"
+  >
+    <div class="bg-main py-2 px-3 head-sub-title">
+      Nostr 日本語リレーリアルタイム流速検出システム
+    </div>
+    <div class="pt-2">{info?.relay_url ?? ""}</div>
+  </div>
+</div>
+{#if info}
   <div class="bg-light-sub">
     <div
       class="max-width mx-auto d-md-flex justify-content-between align-items-center container flex-row-reverse pt-2"
@@ -70,7 +84,7 @@
       </div>
     </div>
   </div>
-</div>
+{/if}
 
 <style>
   .select-sector {
@@ -81,5 +95,8 @@
   }
   input[type="radio"] {
     display: initial;
+  }
+  .head-sub-title {
+    border-radius: 0 0 10px 10px;
   }
 </style>
