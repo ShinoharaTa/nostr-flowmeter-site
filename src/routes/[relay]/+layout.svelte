@@ -1,3 +1,7 @@
+<script>
+  import SubHeader from "../../components/subheader.svelte";
+</script>
+
 <div>
   <div class="text-center bg-main p-2">
     <span class="fs-5">野洲田川定点観測所</span>
@@ -7,12 +11,15 @@
       class="max-width mx-auto d-md-flex justify-content-between align-items-bottom pb-3 container flex-row-reverse"
     >
       <div class="bg-main py-2 px-3 head-sub-title">
-        Nostr 日本語リレーリアルタイム流速観測システム
+        Nostr 日本語リレーリアルタイム流速検出システム
       </div>
       <div class="pt-2">wss://relay-jp.nostr.wirednet.jp</div>
     </div>
   </div>
 </div>
+<SubHeader />
+<div class="p-2" />
+<slot />
 
 <style>
   .head-sub-title {
