@@ -27,28 +27,34 @@
   export let items: ChartDatasets;
 
   const formatted = {
-    labels: items.labels,
+    labels: items.map((item) => item.label),
     datasets: [
       {
         type: "bar",
         label: "投稿数",
-        data: items.count,
+        data: items.map((item) => item.count),
         backgroundColor: "#58B2DC",
       },
     ],
   };
   const formatted_avg = {
-    labels: items.labels,
+    labels: items.map((item) => item.label),
     datasets: [
       {
         type: "line",
         label: "移動平均",
-        data: items.movingAvg,
+        data: items.map((item) => item.movingAvg),
         cubicInterpolationMode: "monotone",
         borderColor: "#113285",
         borderWidth: 1.2,
         borderJoinStyle: "none",
         pointStyle: false,
+      },
+      {
+        type: "bar",
+        label: "投稿数",
+        data: items.map((item) => item.count),
+        backgroundColor: "#58B2DC",
       },
     ],
   };
@@ -97,10 +103,13 @@
             type: "time",
             time: {
               unit: "hour",
+              displayFormats: {
+                hour: "H時",
+              },
             },
             title: {
               display: true,
-              text: "計測時間",
+              text: "時刻",
             },
           },
           y: {

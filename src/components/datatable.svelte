@@ -4,8 +4,8 @@
   export let items: ChartDatasets;
   const formatted: any = [];
   const sortedItems = {
-    labels: items.labels.reverse(),
-    count: items.count.reverse(),
+    labels: items.reverse().map((item) => item.label),
+    count: items.reverse().map((item) => item.count),
   };
   for (let i = 0; i < sortedItems.labels.length; i++) {
     formatted.push({

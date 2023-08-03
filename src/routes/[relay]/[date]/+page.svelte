@@ -12,7 +12,7 @@
   (async () => {
     const result = await getGraphData(`nostr-arrival-rate_${relay}_${date}`);
     if (!result) return;
-    items = formattedData(result, 10, 1);
+    items = formattedData(result, 10, 5);
     console.log(items);
   })();
   const info: RelayItem | undefined = getRelay(relay);
