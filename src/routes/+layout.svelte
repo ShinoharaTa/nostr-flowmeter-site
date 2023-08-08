@@ -2,7 +2,7 @@
   import "../styles/style.scss";
   import { page } from '$app/stores';
   import { getRelay } from "$lib/config";
-  $: river_name = $page.params.relay ? '（' + getRelay($page.params.relay).river_name + '）' : ''
+  $: river_name = $page.params.relay ? '（' + getRelay($page.params.relay)?.river_name + '）' : ''
 </script>
 
 <svelte:head>

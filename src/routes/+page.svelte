@@ -1,13 +1,5 @@
 <script lang="ts">
-  // import { onMount } from "svelte";
-  // import { formattedData, getGraphData } from "$lib/app";
-  // let items: any = null;
-  // (async () => {
-  //   const result = await getGraphData("nostr-arrival-rate");
-  //   if (!result) return;
-  //   items = formattedData(result, 10, 10);
-  //   console.log(items);
-  // })();
+  import { relays } from "$lib/config";
 </script>
 
 <!-- {#if items} -->
@@ -15,9 +7,12 @@
   <div class="fs-1">野州田川水系</div>
   <div class="fs-3 mt-2">定点観測所</div>
 </div>
-<div class="row max-width mx-auto pt-4 fs-4 text-center">
-  <div><a href="/kojira">こじら川</a></div>
-  <div><a href="/yabumi">やぶみ川</a></div>
-  <div><a href="/kirino">きりの川</a></div>
+<div class="row max-width mx-auto pt-4 text-center">
+  {#each relays as relay}
+    <div class="col-md-3 pt-3 fs-4">
+      <a href="/{relay.key}" class="text-primary">{relay.river_name}</a>
+    </div>
+    <div class="col-md-9 pt-2 fs-6">{relay.relay_url}</div>
+  {/each}
 </div>
 <!-- {/if} -->
