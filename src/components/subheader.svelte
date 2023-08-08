@@ -68,7 +68,7 @@
             bind:group={radioSelection}
             on:change={update}
           />
-          正時
+          10分計測
         </label>
         <label for="minute_10">
           <input
@@ -79,7 +79,7 @@
             bind:group={radioSelection}
             on:change={update}
           />
-          10分計測
+          正時刻
         </label>
       </div>
     </div>
