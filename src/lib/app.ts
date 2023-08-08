@@ -1,12 +1,12 @@
 import { getTable } from "nostr-key-value";
-import { parse, format, sub, addMinutes } from "date-fns";
+import { parse, format, addMinutes } from "date-fns";
 import lodash from "lodash";
 const { add } = lodash;
 
 const relay = "wss://relay-jp.nostr.wirednet.jp";
 const npub = "a3c13ef4c9eccfde01bd9326a2ab08b2ad7dc57f3b77db77723f8e2ad7ba24d6";
 
-export type result = string[][];
+export type GraphData = { [key: string]: number };
 export type ChartDatasets = ChartData[];
 export type ChartData = {
   label: Date;
@@ -16,54 +16,54 @@ export type ChartData = {
 
 export const getGraphData = async (
   tableName: string
-): Promise<result | null> => {
+): Promise<GraphData | null> => {
   const result = await getTable([relay], npub, tableName);
   if (!result) return null;
-  return result.tags.slice(3);
+  const graphData: GraphData = {};
+  for (const item of result.tags.slice(3)) {
+    graphData[item[0]] = Number(item[1]);
+  }
+  return graphData;
 };
 
 export const formattedData = (
-  values: result,
+  values: GraphData,
   chunk: number,
-  movingAvgSize: number
+  movingAvgSize: number,
+  since: Date
 ) => {
-  const groupedValues: string[][][] = [];
+  const groupedDates: string[][] = [];
   const formatted: ChartDatasets = [];
 
-  const currentDate = new Date();
-  const pastDate = sub(currentDate, { hours: 24 });
-
-  const dates = Array.from({length: 1440}, (_, i) => format(addMinutes(pastDate, i), 'yyyyMMddHHmm'));
-
-  // const dayArray = dates.forEach()
-  for (let i = 0; i < values.length; i += chunk) {
-    groupedValues.push(values.slice(i, i + chunk));
+  const dates = Array.from({ length: 1440 }, (_, i) =>
+    format(addMinutes(since, i), "yyyyMMddHHmm")
+  );
+  for (let i = 0; i < dates.length; i += chunk) {
+    groupedDates.push(dates.slice(i, i + chunk));
   }
-
-  groupedValues.forEach((group) => {
-    const counts = group.map((item) => Number(item[1]));
+  groupedDates.forEach((group) => {
+    const counts = group.map((item) => Number(values[item]));
     const sum = counts.reduce(add, 0);
     if (formatted.length > movingAvgSize - 1) {
-      const movingAvgSum = formatted
-        .slice(-(movingAvgSize - 1))
-        .map((item) => item.count)
-        .reduce(add, 0) + sum;
-      console.log(movingAvgSum, sum);
+      const movingAvgSum =
+        formatted
+          .slice(-(movingAvgSize - 1))
+          .map((item) => item.count)
+          .reduce(add, 0) + sum;
       const movingAvg = movingAvgSum / movingAvgSize;
       formatted.push({
         count: sum,
-        label: parse(group[0][0], "yyyyMMddHHmm", new Date()),
+        label: parse(group[0], "yyyyMMddHHmm", new Date()),
         movingAvg: movingAvg,
       });
     } else {
       formatted.push({
         count: sum,
-        label: parse(group[0][0], "yyyyMMddHHmm", new Date()),
+        label: parse(group[0], "yyyyMMddHHmm", new Date()),
         movingAvg: NaN,
       });
     }
   });
-  console.log(formatted);
   return formatted;
 };
 

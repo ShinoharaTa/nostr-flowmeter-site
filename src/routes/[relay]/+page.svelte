@@ -5,13 +5,14 @@
   import BaseInfo from "../../components/baseinfo.svelte";
   import { page } from "$app/stores";
   import { getRelay, type RelayItem } from "$lib/config";
+  import { sub } from "date-fns";
 
   const relay: string = $page.params.relay;
   let items: any = null;
   (async () => {
     const result = await getGraphData(`nostr-arrival-rate_${relay}`);
     if (!result) return;
-    items = formattedData(result, 10, 5);
+    items = formattedData(result, 10, 5, sub(new Date(), { hours: 24 }));
     console.log(items);
   })();
   const info: RelayItem | undefined = getRelay(relay);
