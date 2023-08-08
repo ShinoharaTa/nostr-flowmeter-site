@@ -18,7 +18,6 @@
       count: sortedItems.count[i],
     });
   }
-  console.log(formatted);
 </script>
 
 <span>測位情報 (posts / 10min)</span>

@@ -13,7 +13,6 @@
     const result = await getGraphData(`nostr-arrival-rate_${relay}`);
     if (!result) return;
     items = formattedData(result, 10, 5, sub(new Date(), { hours: 24 }));
-    console.log(items);
   })();
   const info: RelayItem | undefined = getRelay(relay);
 </script>
