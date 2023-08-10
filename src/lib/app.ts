@@ -42,7 +42,7 @@ export const formattedData = (
     groupedDates.push(dates.slice(i, i + chunk));
   }
   groupedDates.forEach((group) => {
-    const counts = group.map((item) => Number(values[item]));
+    const counts = group.map((item) => Number(values[item] ?? 0));
     const sum = counts.reduce(add, 0);
     if (formatted.length > movingAvgSize - 1) {
       const movingAvgSum =
