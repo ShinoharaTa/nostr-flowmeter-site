@@ -44,6 +44,13 @@ export const relays: Relays = [
     live_cam_url: "",
   },
   {
+    key: "shino3",
+    river_name: "しの川",
+    relay_url: "wss://relay-jp.shino3.net",
+    live_cam: false,
+    live_cam_url: "",
+  },
+  {
     key: "takenoko_g",
     river_name: "のこたろ川(GLOBAL)",
     relay_url: "wss://nostr-relay.nokotaro.com",

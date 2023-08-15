@@ -36,7 +36,7 @@
     "chartjs-adapter-date-fns": "^3.0.0",
     "date-fns": "^2.30.0",
     "lodash": "^4.17.21",
-    "nostr-key-value": "^0.1.6",
+    "nostr-key-value": "^0.3.4",
     "svelte-chartjs": "^3.1.2"
   }
 }

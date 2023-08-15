@@ -1,0 +1,19 @@
+@font-face {
+  font-family: 'default';
+  src: url('/LINESeedJP_OTF_Rg.woff2') format('woff');
+}
+@font-face {
+  font-family: 'default';
+  src: url('/LINESeedJP_OTF_Bd.woff2') format('woff');
+  font-weight: bold;
+}
+@font-face {
+  font-family: 'default';
+  src: url('/LINESeedJP_OTF_Th.woff2') format('woff');
+  font-weight: 100;
+}
+
+body {
+  font-family: 'default';
+  background-color: #0f0f0f;
+}
