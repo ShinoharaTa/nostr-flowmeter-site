@@ -34,8 +34,9 @@
           {
             type: "line",
             data: items,
-            borderColor: "#00BCD4",
-            fill: false,
+            borderColor: "#198754",
+            fill: true,
+            backgroundColor: "#198754",
             borderWidth: 1.5,
             pointStyle: false,
           },
@@ -44,7 +45,7 @@
       options: {
         animation: false,
         responsive: true,
-        aspectRatio: 8,
+        aspectRatio: 6,
         scales: {
           x: {
             display: false,
@@ -67,16 +68,13 @@
   });
 </script>
 
-<div class="graph">
+<div class="graph bg-dark">
   <canvas bind:this={chartCanvas} class="img-fluid" />
 </div>
 
 <style>
   .graph {
-    /* border: 1px solid #444; */
-    background-color: #444;
-    border-radius: 8px;
-    width: 240px;
+    width: 180px;
     height: 30px;
   }
 </style>

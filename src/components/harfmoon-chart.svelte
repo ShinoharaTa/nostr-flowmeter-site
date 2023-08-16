@@ -1,15 +1,11 @@
 <script lang="ts">
-  import {
-    Chart,
-    DoughnutController,
-    ArcElement,
-  } from "chart.js";
+  import { Chart, DoughnutController, ArcElement } from "chart.js";
   Chart.register(DoughnutController, ArcElement);
   import "chartjs-adapter-date-fns";
   import { onMount } from "svelte";
   export let scale: number;
 
-  let color = "#28a745";
+  let color = "#198754";
   if (scale <= 40) color = "#ffc107";
   if (scale <= 10) color = "#dc3545";
   let chartCanvas: any;
