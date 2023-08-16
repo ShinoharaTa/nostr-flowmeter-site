@@ -56,22 +56,22 @@
           </div>
           <div class="stripe flex-fill ms-1" />
         </div>
-        <div class="col-12 col-sm-4 col-md-3">
+        <div class="col-12 col-sm-3 col-md-3">
           <div class="content p-2 fs-1">
             <div class="text-center">
               {format(new Date(), "HH:mm")}
             </div>
           </div>
         </div>
-        <div class="col-12 col-lg-3 order-lg-last">
-          <div class="p-4 content">
-            <div class="row align-items-center">
-              <div class="col-4 col-lg-12">
+        <div class="col-12 col-sm-3 order-sm-last">
+          <div class="p-2 content">
+            <div class="d-flex d-sm-block align-items-center">
+              <div class="chart-min_height">
                 <HarfmoonChart {scale} />
               </div>
-              <div class="col-8 col-lg-12">
-                <div class="fs-5 text-lg-center">
-                  健康度: {scale} %
+              <div class="ms-3 ms-sm-0">
+                <div class="fs-5 text-sm-center">
+                  {scale} %
                 </div>
                 <!-- <div class="fs-5 text-lg-center">
                   最終取得: {updated_at}
@@ -80,11 +80,11 @@
             </div>
           </div>
         </div>
-        <div class="col-12 col-lg-9 order-1">
+        <div class="col-12 col-sm-9 order-1">
           <div class="px-2 content">
             {#each relays as relay}
-              <div class="align-items-center d-md-flex my-2 status_head">
-                <div class="fs-5 flex-fill mb-2 mb-md-0">
+              <div class="align-items-center d-lg-flex my-2 status_head">
+                <div class="fs-5 flex-fill mb-2 mb-lg-0">
                   {relay.relay_url}
                 </div>
                 <div class="d-flex fs-5">
@@ -129,7 +129,6 @@
 
   .halfmoon {
     height: 30px;
-    /* width: 30px; */
   }
 
   .status_head {
@@ -145,5 +144,14 @@
       #000 25px,
       #000 50px
     );
+  }
+  .chart-min_height {
+    height: 70px;
+  }
+  @media (min-width: 576px) {
+    .chart-min_height {
+      width: initial;
+      height: initial;
+    }
   }
 </style>
