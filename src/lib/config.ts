@@ -60,7 +60,7 @@ export const relays: Relays = [
   {
     key: "kirino_g",
     river_name: "きりの川(GLOBAL)",
-    relay_url: "wss://nostr-relay.nokotaro.com",
+    relay_url: "wss://relay.nostr.wirednet.jp",
     live_cam: false,
     live_cam_url: "",
   },
