@@ -41,6 +41,15 @@
     scale = Math.round(((total - errorCount) / total) * 100);
     isLoaded = true;
   });
+
+  const healthStatus = (counts :number[]): Boolean =>{
+    for(const count of counts.slice(-3)){
+      if(count !== 0){
+        return true
+      }
+    }
+    return false;
+  }
 </script>
 
 <div class="outline">
@@ -89,7 +98,7 @@
                 </div>
                 <div class="d-flex fs-5">
                   <HealthChart items={status[relay.key].count} />
-                  {#if status[relay.key].status}
+                  {#if healthStatus(status[relay.key].count.slice(-3))}
                     <div class="ms-1 status bg-dark text-success">正常</div>
                     <div class="ms-1 status bg-dark disabled">異常</div>
                   {:else}
