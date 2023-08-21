@@ -87,9 +87,18 @@
   });
 </script>
 
-<div>
+<div class="mx-auto chart_size">
   <canvas bind:this={chartCanvas} class="img-fluid"/>
 </div>
 
 <style>
+  .chart_size {
+    min-width: 300px;
+    width: 100%;
+  }
+  @media (min-width: 768px) {
+    .chart_size {
+      width: 100%;
+    }
+  }
 </style>
