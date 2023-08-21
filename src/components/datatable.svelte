@@ -53,14 +53,14 @@
 
 <style>
   .table-container {
-    max-height: 40vh;
+    height: 400px;
     overflow-y: scroll;
     font-size: 12px;
     border: 1px solid #000;
   }
   @media (min-width: 768px) {
     .table-container {
-      max-height: 60vh;
+      height: 60vh;
     }
   }
 
