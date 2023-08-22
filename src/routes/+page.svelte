@@ -7,11 +7,6 @@
   <div class="fs-1">野州田川水系</div>
   <div class="fs-3 mt-2">定点観測所</div>
 </div>
-<div class="text-center bg-dark py-3">
-  <a href="/status" class="text-success fs-6">
-    速報システム稼働中
-  </a>
-</div>
 <div class="row max-width mx-auto pt-3">
   <div class="col-12">
     このサイトは Nostr 日本リレーの流速をグラフ表示化しています。<br />
