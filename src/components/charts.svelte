@@ -1,55 +1,47 @@
 <script lang="ts">
   import type { ChartDatasets } from "$lib/app";
   import {
-    Chart,
-    LineController,
-    LineElement,
     BarController,
     BarElement,
-    PointElement,
     CategoryScale,
+    Chart,
     LinearScale,
+    LineController,
+    LineElement,
+    PointElement,
     TimeScale,
     type ChartData,
   } from "chart.js";
-  Chart.register(
-    LineController,
-    LineElement,
-    BarController,
-    BarElement,
-    PointElement,
-    CategoryScale,
-    LinearScale,
-    TimeScale
-  );
   import "chartjs-adapter-date-fns";
+  import { format, fromUnixTime } from "date-fns";
   import { onMount } from "svelte";
-  export let items: ChartDatasets;
+  export let axis: number[];
+  export let data: number[];
 
   const formatted = {
-    labels: items.map((item) => item.label),
+    labels: axis.map((item) => fromUnixTime(item)),
     datasets: [
-      {
-        type: "line",
-        label: "移動平均",
-        data: items.map((item) => item.movingAvg),
-        cubicInterpolationMode: "monotone",
-        borderColor: "#113285",
-        borderWidth: 1.2,
-        borderJoinStyle: "none",
-        pointStyle: false,
-      },
+      // {
+      //   type: "line",
+      //   label: "移動平均",
+      //   data: items.map((item) => item.movingAvg),
+      //   cubicInterpolationMode: "monotone",
+      //   borderColor: "#113285",
+      //   borderWidth: 1.2,
+      //   borderJoinStyle: "none",
+      //   pointStyle: false,
+      // },
       {
         type: "bar",
         label: "投稿数",
-        data: items.map((item) => item.count),
+        data: data,
         backgroundColor: "#58B2DC",
       },
     ],
   };
 
   let chartCanvas: any;
-
+  Chart.register(TimeScale, LinearScale, BarController, BarElement);
   function renderChart() {
     new Chart(chartCanvas, {
       data: formatted,
@@ -88,7 +80,7 @@
 </script>
 
 <div class="mx-auto chart_size">
-  <canvas bind:this={chartCanvas} class="img-fluid canvas"/>
+  <canvas bind:this={chartCanvas} class="img-fluid canvas" />
 </div>
 
 <style>

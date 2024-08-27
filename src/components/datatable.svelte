@@ -1,24 +1,22 @@
 <script lang="ts">
-  import { format, isSameDay, isSameHour } from "date-fns";
   import type { ChartDatasets } from "$lib/app";
-  export let items: ChartDatasets;
+  import { format, fromUnixTime, isSameDay, isSameHour } from "date-fns";
+  export let axis: number[];
+  export let data: number[];
   const formatted: any = [];
-  const sortedItems = {
-    labels: items.map((item) => item.label),
-    count: items.map((item) => item.count),
-  };
-  // console.log(items)
-  sortedItems.count.reverse();
-  sortedItems.labels.reverse();
-  for (let i = 0; i < sortedItems.labels.length; i++) {
+  const formattedAxis = axis.reverse()
+  const formatteddata = data.reverse()
+  for (let i = 0; i < formattedAxis.length; i++) {
+    const date = fromUnixTime(formattedAxis[i])
+    const date_before = fromUnixTime(formattedAxis[i - 1])
     formatted.push({
-      date: sortedItems.labels[i],
+      date,
       showDate:
-        i === 0 || !isSameDay(sortedItems.labels[i], sortedItems.labels[i - 1]),
+        i === 0 || !isSameDay(date, date_before),
       showTime:
         i === 0 ||
-        !isSameHour(sortedItems.labels[i], sortedItems.labels[i - 1]),
-      count: sortedItems.count[i],
+        !isSameHour(date, date_before),
+      count: formatteddata[i],
     });
   }
 </script>
