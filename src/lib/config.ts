@@ -80,3 +80,17 @@ export const FLOW_LEVELS: FlowLevels = {
   attention: 100,
   danger: 200,
 };
+
+// トップページの「お知らせ」欄（新しいものを先頭に）
+export type Notice = {
+  date: string;
+  text: string;
+  url?: string;
+};
+
+export const notices: Notice[] = [
+  {
+    date: "2026-07-04",
+    text: "当観測所は https://nostr-flowmeter.shino3.net/ へ移転しました。",
+  },
+];
