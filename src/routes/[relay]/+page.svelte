@@ -210,33 +210,41 @@ const selectDate = () => {
     <BaseInfo {info} {operation} />
   </div>
   <div class="p-2"></div>
-  <div class="row max-width mx-auto">
-    <div class="col-12 col-md-3 order-2">
-      <DataTable {axis} data={counts} />
-    </div>
-    <div class="col-12 col-md-9 order-1">
-      <Charts {axis} data={counts} />
+  <div class="max-width mx-auto container">
+    <div class="row">
+      <div class="col-12 col-md-3 order-2">
+        <DataTable {axis} data={counts} />
+      </div>
+      <div class="col-12 col-md-9 order-1">
+        <Charts {axis} data={counts} />
+      </div>
     </div>
   </div>
 {:else if status === "nodata"}
-  <div class="row max-width mx-auto text-center mt-5">
-    <div class="fs-1"></div>
-    <div class="fs-3">No Data</div>
-    <div class="mt-4">指定日の観測データがありません</div>
+  <div class="max-width mx-auto container text-center mt-5">
+    <div class="row">
+      <div class="fs-1"></div>
+      <div class="fs-3">No Data</div>
+      <div class="mt-4">指定日の観測データがありません</div>
+    </div>
   </div>
 {:else if status === "error"}
-  <div class="row max-width mx-auto text-center mt-5">
-    <div class="fs-1"></div>
-    <div class="fs-3">Error</div>
-    <div class="mt-4">
-      データを取得できませんでした。時間をおいて再読み込みしてください
+  <div class="max-width mx-auto container text-center mt-5">
+    <div class="row">
+      <div class="fs-1"></div>
+      <div class="fs-3">Error</div>
+      <div class="mt-4">
+        データを取得できませんでした。時間をおいて再読み込みしてください
+      </div>
     </div>
   </div>
 {:else}
-  <div class="row max-width mx-auto text-center mt-5">
-    <div class="fs-1"></div>
-    <div class="fs-3">Now loading...</div>
-    <div class="mt-4">読み込み中</div>
+  <div class="max-width mx-auto container text-center mt-5">
+    <div class="row">
+      <div class="fs-1"></div>
+      <div class="fs-3">Now loading...</div>
+      <div class="mt-4">読み込み中</div>
+    </div>
   </div>
 {/if}
 
