@@ -9,8 +9,8 @@ const showMigrationNotice =
 </script>
 
 <div class="bg-main text-center py-2">
-  <div class="fs-1">野洲田川水系</div>
-  <div class="fs-3 mt-2">定点観測所</div>
+  <div class="fs-1">野洲田川水系 定点観測所</div>
+  <div class="fs-5">―リアルタイム流速情報―</div>
 </div>
 {#if showMigrationNotice}
   <div class="max-width mx-auto px-3">

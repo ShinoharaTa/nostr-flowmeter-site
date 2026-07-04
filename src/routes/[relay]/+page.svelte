@@ -252,13 +252,7 @@ const selectDate = () => {
   a {
     text-decoration: none;
   }
-  .select-sector {
-    border-radius: 10px 10px 0 0;
-  }
   .select-sector input {
     vertical-align: middle;
-  }
-  .head-sub-title {
-    border-radius: 0 0 10px 10px;
   }
 </style>
