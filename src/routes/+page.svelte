@@ -4,7 +4,7 @@ import { relays } from "$lib/config";
 
 <!-- {#if items} -->
 <div class="bg-main text-center py-2">
-  <div class="fs-1">野州田川水系</div>
+  <div class="fs-1">野洲田川水系</div>
   <div class="fs-3 mt-2">定点観測所</div>
 </div>
 <div class="row max-width mx-auto pt-3">

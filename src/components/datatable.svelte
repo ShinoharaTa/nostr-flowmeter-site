@@ -8,8 +8,8 @@ const formatted: {
   showTime: boolean;
   count: number;
 }[] = [];
-const formattedAxis = axis.reverse();
-const formatteddata = data.reverse();
+const formattedAxis = [...axis].reverse();
+const formatteddata = [...data].reverse();
 for (let i = 0; i < formattedAxis.length; i++) {
   const date = fromUnixTime(formattedAxis[i]);
   const date_before = fromUnixTime(formattedAxis[i - 1]);
