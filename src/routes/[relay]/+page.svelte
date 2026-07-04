@@ -170,9 +170,6 @@ const selectDate = () => {
   .select-sector input {
     vertical-align: middle;
   }
-  input[type="radio"] {
-    display: initial;
-  }
   .head-sub-title {
     border-radius: 0 0 10px 10px;
   }

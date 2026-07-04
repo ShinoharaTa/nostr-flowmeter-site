@@ -2,7 +2,6 @@
 import { relays } from "$lib/config";
 </script>
 
-<!-- {#if items} -->
 <div class="bg-main text-center py-2">
   <div class="fs-1">野洲田川水系</div>
   <div class="fs-3 mt-2">定点観測所</div>
@@ -25,9 +24,6 @@ import { relays } from "$lib/config";
       href="https://github.com/ShinoharaTa/nostr-flowmeter-site"
       target="_blank" rel="noopener noreferrer">GitHub</a
     >
-    <!-- <br>
-    <br>
-    ※ このサイトに掲載されているロゴ・イラストは許諾を得て掲載させていただいております。<br> -->
   </div>
   <div class="col-md-9">
     <table class="mt-3">
@@ -41,14 +37,10 @@ import { relays } from "$lib/config";
         {#each relays as relay}
           <tr>
             <td class="py-md-3">
-              <!-- <div class="col-md-6 fs-4 text-md-end text-center py-2"> -->
               <a href="/{relay.key}" class="text-primary">{relay.river_name}</a>
-              <!-- </div> -->
             </td>
             <td>
-              <!-- <div class="col-md-6 fs-6 text-md-start text-center py-2"> -->
               {relay.relay_url}
-              <!-- </div> -->
             </td>
           </tr>
         {/each}
@@ -110,8 +102,6 @@ import { relays } from "$lib/config";
   </div>
   <div class="p-4"></div>
 </div>
-
-<!-- {/if} -->
 
 <style>
   table {
