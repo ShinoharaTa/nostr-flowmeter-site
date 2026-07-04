@@ -12,6 +12,7 @@ export let data: PageData;
 
 let axis: number[] | null = null;
 let counts: number[] | null = null;
+let status: "loading" | "ready" | "nodata" | "error" = "loading";
 let selectedDate = format(new Date(), "yyyy-MM-dd");
 let radioSelection = "0";
 let requestId = 0;
@@ -34,12 +35,23 @@ async function fetchData(relayKey: string, date: string | null) {
   const id = ++requestId;
   axis = null;
   counts = null;
+  status = "loading";
   const dateKey = date ? `_${date}` : "";
-  const result = await getGraphData(`nostr_river_flowmeter${dateKey}`);
-  if (id !== requestId) return;
-  if (!result) return;
-  axis = result.axis;
-  counts = relayKey in result.data ? result.data[relayKey] : [];
+  try {
+    const result = await getGraphData(`nostr_river_flowmeter${dateKey}`);
+    if (id !== requestId) return;
+    if (!result) {
+      status = date ? "nodata" : "error";
+      return;
+    }
+    axis = result.axis;
+    counts = relayKey in result.data ? result.data[relayKey] : [];
+    status = "ready";
+  } catch (e) {
+    if (id !== requestId) return;
+    console.error("Failed to fetch graph data:", e);
+    status = "error";
+  }
 }
 
 const update = () => {
@@ -112,7 +124,7 @@ const selectDate = () => {
 {/if}
 <div class="p-2"></div>
 
-{#if axis && counts}
+{#if status === "ready" && axis && counts}
   <div class="max-width mx-auto container">
     <BaseInfo {info} />
   </div>
@@ -123,6 +135,20 @@ const selectDate = () => {
     </div>
     <div class="col-12 col-md-9 order-1">
       <Charts {axis} data={counts} />
+    </div>
+  </div>
+{:else if status === "nodata"}
+  <div class="row max-width mx-auto text-center mt-5">
+    <div class="fs-1"></div>
+    <div class="fs-3">No Data</div>
+    <div class="mt-4">指定日の観測データがありません</div>
+  </div>
+{:else if status === "error"}
+  <div class="row max-width mx-auto text-center mt-5">
+    <div class="fs-1"></div>
+    <div class="fs-3">Error</div>
+    <div class="mt-4">
+      データを取得できませんでした。時間をおいて再読み込みしてください
     </div>
   </div>
 {:else}
