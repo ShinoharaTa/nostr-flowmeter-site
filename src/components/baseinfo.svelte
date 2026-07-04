@@ -23,6 +23,9 @@ $: specRows = [
   { label: "水系名", value: "野洲田川水系" },
   { label: "河川名", value: info.river_name },
   { label: "観測所", value: "野洲田川定点観測所" },
+  { label: "所在地", value: info.relay_url },
+  { label: "観測項目", value: "流速（投稿数）" },
+  { label: "観測方式", value: "テレメータ（自動観測・毎分）" },
   { label: "ライブカメラ", value: info.live_cam ? "○" : "✕" },
   { label: "観測システム", value: "流速ちゃん", link: systemUrl },
   {
