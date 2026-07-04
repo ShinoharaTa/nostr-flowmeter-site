@@ -248,11 +248,22 @@ const selectDate = () => {
   </div>
 {/if}
 
+<div class="max-width mx-auto container mt-3 mb-4">
+  <div class="data-note">
+    このデータは速報値であり、後日修正されることがあります。<br />
+    観測は毎分、表示は10分毎の集計値です。ページは5分毎に自動更新されます。
+  </div>
+</div>
+
 <style>
   a {
     text-decoration: none;
   }
   .select-sector input {
     vertical-align: middle;
+  }
+  .data-note {
+    font-size: 11px;
+    color: #666;
   }
 </style>
