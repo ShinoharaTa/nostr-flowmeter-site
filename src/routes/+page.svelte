@@ -1,11 +1,31 @@
 <script lang="ts">
+import { browser } from "$app/environment";
 import { relays } from "$lib/config";
+
+const NEW_SITE_URL = "https://nostr-flowmeter.shino3.net/";
+// 旧 Vercel URL で閲覧しているときだけ移転案内を表示する
+const showMigrationNotice =
+  browser && location.hostname.endsWith(".vercel.app");
 </script>
 
 <div class="bg-main text-center py-2">
   <div class="fs-1">野洲田川水系</div>
   <div class="fs-3 mt-2">定点観測所</div>
 </div>
+{#if showMigrationNotice}
+  <div class="max-width mx-auto px-3">
+    <div class="migration-notice mt-3 p-3 text-center">
+      <div class="fs-4 text-danger">移転のお知らせ</div>
+      <div class="mt-2">
+        野洲田川定点観測所は下記のURLへ移転しました。<br />
+        お手数ですが、ブックマーク等の変更をお願いいたします。
+      </div>
+      <div class="fs-5 mt-2">
+        新URL: <a href={NEW_SITE_URL} class="text-primary">{NEW_SITE_URL}</a>
+      </div>
+    </div>
+  </div>
+{/if}
 <div class="row max-width mx-auto pt-3">
   <div class="col-12">
     このサイトは Nostr 日本リレーの流速をグラフ表示化しています。<br />
@@ -104,6 +124,10 @@ import { relays } from "$lib/config";
 </div>
 
 <style>
+  .migration-notice {
+    border: 2px solid #dc3545;
+    background-color: #fff;
+  }
   table {
     width: 100%;
     border: 1px solid #000;
