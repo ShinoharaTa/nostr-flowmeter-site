@@ -62,7 +62,8 @@ const update = () => {
   }
 };
 const selectDate = () => {
-  goto(`/${data.relayKey}?d=${format(new Date(selectedDate), "yyyyMMdd")}`);
+  const parsed = parse(selectedDate, "yyyy-MM-dd", new Date());
+  goto(`/${data.relayKey}?d=${format(parsed, "yyyyMMdd")}`);
 };
 </script>
 
@@ -96,27 +97,27 @@ const selectDate = () => {
         />
       </div>
       <div class="select-sector pt-2 pb-1 px-3 bg-white mt-2">
-        <label for="realtime" class="me-2">
+        <label for="mode-current" class="me-2">
           <input
             type="radio"
-            id="realtime"
+            id="mode-current"
             name="choice"
             value="0"
             bind:group={radioSelection}
             on:change={update}
           />
-          10分計測
+          現在
         </label>
-        <label for="minute_10">
+        <label for="mode-date">
           <input
             type="radio"
-            id="minute_10"
+            id="mode-date"
             name="choice"
             value="1"
             bind:group={radioSelection}
             on:change={update}
           />
-          正時刻
+          日付指定
         </label>
       </div>
     </div>
