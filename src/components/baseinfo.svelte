@@ -1,6 +1,6 @@
 <script lang="ts">
-  import type { RelayItem } from "$lib/config";
-  export let info: RelayItem;
+import type { RelayItem } from "$lib/config";
+export let info: RelayItem;
 </script>
 
 <table>

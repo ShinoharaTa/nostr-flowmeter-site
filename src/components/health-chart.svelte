@@ -1,75 +1,77 @@
 <script lang="ts">
-  import {
-    Chart,
-    LineController,
-    LineElement,
-    BarController,
-    BarElement,
-    PointElement,
-    CategoryScale,
-    LinearScale,
-    TimeScale,
-  } from "chart.js";
-  Chart.register(
-    LineController,
-    LineElement,
-    BarController,
-    BarElement,
-    PointElement,
-    CategoryScale,
-    LinearScale,
-    TimeScale
-  );
-  import "chartjs-adapter-date-fns";
-  import { onMount } from "svelte";
-  export let items: number[];
+import {
+  BarController,
+  BarElement,
+  CategoryScale,
+  Chart,
+  LinearScale,
+  LineController,
+  LineElement,
+  PointElement,
+  TimeScale,
+} from "chart.js";
 
-  let chartCanvas: any;
+Chart.register(
+  LineController,
+  LineElement,
+  BarController,
+  BarElement,
+  PointElement,
+  CategoryScale,
+  LinearScale,
+  TimeScale,
+);
 
-  function renderChart() {
-    new Chart(chartCanvas, {
-      data: {
-        labels: Array(10).fill(""),
-        datasets: [
-          {
-            type: "line",
-            data: items,
-            borderColor: "#198754",
-            fill: true,
-            backgroundColor: "#198754",
-            borderWidth: 1.5,
-            pointStyle: false,
-          },
-        ],
-      },
-      options: {
-        animation: false,
-        responsive: true,
-        aspectRatio: 6,
-        scales: {
-          x: {
-            display: false,
-          },
-          y: {
-            display: false,
-          },
+import "chartjs-adapter-date-fns";
+import { onMount } from "svelte";
+export let items: number[];
+
+let chartCanvas: HTMLCanvasElement;
+
+function renderChart() {
+  new Chart(chartCanvas, {
+    data: {
+      labels: Array(10).fill(""),
+      datasets: [
+        {
+          type: "line",
+          data: items,
+          borderColor: "#198754",
+          fill: true,
+          backgroundColor: "#198754",
+          borderWidth: 1.5,
+          pointStyle: false,
         },
-        plugins: {
-          legend: {
-            display: false,
-          },
+      ],
+    },
+    options: {
+      animation: false,
+      responsive: true,
+      aspectRatio: 6,
+      scales: {
+        x: {
+          display: false,
+        },
+        y: {
+          display: false,
         },
       },
-    });
-  }
-
-  onMount(() => {
-    renderChart();
+      plugins: {
+        legend: {
+          display: false,
+        },
+      },
+    },
   });
+}
+
+onMount(() => {
+  renderChart();
+});
 </script>
 
 <div class="graph bg-dark">
-  <canvas bind:this={chartCanvas} class="img-fluid" />
+  <canvas bind:this={chartCanvas} class="img-fluid"></canvas>
 </div>
 
 <style>

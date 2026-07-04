@@ -1,24 +1,25 @@
 <script lang="ts">
-  import type { ChartDatasets } from "$lib/app";
-  import { format, fromUnixTime, isSameDay, isSameHour } from "date-fns";
-  export let axis: number[];
-  export let data: number[];
-  const formatted: any = [];
-  const formattedAxis = axis.reverse()
-  const formatteddata = data.reverse()
-  for (let i = 0; i < formattedAxis.length; i++) {
-    const date = fromUnixTime(formattedAxis[i])
-    const date_before = fromUnixTime(formattedAxis[i - 1])
-    formatted.push({
-      date,
-      showDate:
-        i === 0 || !isSameDay(date, date_before),
-      showTime:
-        i === 0 ||
-        !isSameHour(date, date_before),
-      count: formatteddata[i],
-    });
-  }
+import { format, fromUnixTime, isSameDay, isSameHour } from "date-fns";
+export let axis: number[];
+export let data: number[];
+const formatted: {
+  date: Date;
+  showDate: boolean;
+  showTime: boolean;
+  count: number;
+}[] = [];
+const formattedAxis = axis.reverse();
+const formatteddata = data.reverse();
+for (let i = 0; i < formattedAxis.length; i++) {
+  const date = fromUnixTime(formattedAxis[i]);
+  const date_before = fromUnixTime(formattedAxis[i - 1]);
+  formatted.push({
+    date,
+    showDate: i === 0 || !isSameDay(date, date_before),
+    showTime: i === 0 || !isSameHour(date, date_before),
+    count: formatteddata[i],
+  });
+}
 </script>
 
 <span>測位情報 (posts / 10min)</span>

@@ -1,58 +1,57 @@
 <script lang="ts">
-  import { goto, invalidate } from "$app/navigation";
-  import { page } from "$app/stores";
-  import { formattedData, getGraphData } from "$lib/app";
-  import { getRelay, type RelayItem } from "$lib/config";
-  import { format, getHours, isValid, parse, sub } from "date-fns";
-  import BaseInfo from "../../components/baseinfo.svelte";
-  import Charts from "../../components/charts.svelte";
-  import DataTable from "../../components/datatable.svelte";
+import { format, isValid, parse } from "date-fns";
+import { page } from "$app/stores";
+import { getGraphData } from "$lib/app";
+import { getRelay, type RelayItem } from "$lib/config";
+import BaseInfo from "../../components/baseinfo.svelte";
+import Charts from "../../components/charts.svelte";
+import DataTable from "../../components/datatable.svelte";
 
-  const relay: string = $page.params.relay;
-  const date = $page.url.searchParams.get("d");
-  let selectedDate = format(new Date(), "yyyy-MM-dd");
-  let radioSelection = "0";
+const relay: string = $page.params.relay ?? "";
+const date = $page.url.searchParams.get("d");
+let selectedDate = format(new Date(), "yyyy-MM-dd");
+let radioSelection = "0";
 
-  const query = $page.url.searchParams;
+const query = $page.url.searchParams;
 
-  if (date) {
-    const parsedDate = parse(date, "yyyyMMdd", new Date());
-    if (isValid(parsedDate)) {
-      selectedDate = format(parsedDate, "yyyy-MM-dd");
-      radioSelection = "1";
-    } else {
-      console.error("Invalid date parameter:", date);
-    }
+if (date) {
+  const parsedDate = parse(date, "yyyyMMdd", new Date());
+  if (isValid(parsedDate)) {
+    selectedDate = format(parsedDate, "yyyy-MM-dd");
+    radioSelection = "1";
+  } else {
+    console.error("Invalid date parameter:", date);
   }
+}
 
-  const update = async () => {
-    if (radioSelection === "0") {
-      selectedDate = format(new Date(), "yyyy-MM-dd");
-      query.delete("d");
-      history.replaceState(history.state, '', $page.url);
-      location.href = $page.url.toString()
-    }
-    if (radioSelection === "1") {
-      query.set("d", format(new Date(), "yyyyMMdd"));
-      history.replaceState(history.state, '', $page.url);
-      location.href = $page.url.toString()
-    }
-  };
-  const selectDate = async () => {
-    query.set("d", format(new Date(selectedDate), "yyyyMMdd"));
-    history.replaceState(history.state, '', $page.url);
-    location.href = $page.url.toString()
-  };
-  let axis: number[];
-  let data: number[];
-  (async () => {
-    const dateKey = date ? `_${date}` : "";
-    const result = await getGraphData(`nostr_river_flowmeter${dateKey}`);
-    if (!result) return;
-    axis = result.axis;
-    data = relay in result.data ? result.data[relay] : [];
-  })();
-  const info: RelayItem | undefined = getRelay(relay);
+const update = async () => {
+  if (radioSelection === "0") {
+    selectedDate = format(new Date(), "yyyy-MM-dd");
+    query.delete("d");
+    history.replaceState(history.state, "", $page.url);
+    location.href = $page.url.toString();
+  }
+  if (radioSelection === "1") {
+    query.set("d", format(new Date(), "yyyyMMdd"));
+    history.replaceState(history.state, "", $page.url);
+    location.href = $page.url.toString();
+  }
+};
+const selectDate = async () => {
+  query.set("d", format(new Date(selectedDate), "yyyyMMdd"));
+  history.replaceState(history.state, "", $page.url);
+  location.href = $page.url.toString();
+};
+let axis: number[];
+let data: number[];
+(async () => {
+  const dateKey = date ? `_${date}` : "";
+  const result = await getGraphData(`nostr_river_flowmeter${dateKey}`);
+  if (!result) return;
+  axis = result.axis;
+  data = relay in result.data ? result.data[relay] : [];
+})();
+const info: RelayItem | undefined = getRelay(relay);
 </script>
 
 <div class="text-center bg-main p-2">
@@ -111,13 +110,13 @@
     </div>
   </div>
 {/if}
-<div class="p-2" />
+<div class="p-2"></div>
 
 {#if axis && data && info}
   <div class="max-width mx-auto container">
     <BaseInfo {info} />
   </div>
-  <div class="p-2" />
+  <div class="p-2"></div>
   <div class="row max-width mx-auto">
     <div class="col-12 col-md-3 order-2">
       <DataTable {axis} {data} />
@@ -129,7 +128,7 @@
   </div>
 {:else if info}
   <div class="row max-width mx-auto text-center mt-5">
-    <div class="fs-1" />
+    <div class="fs-1"></div>
     <div class="fs-3">Now loading...</div>
     <div class="mt-4">読み込み中</div>
   </div>

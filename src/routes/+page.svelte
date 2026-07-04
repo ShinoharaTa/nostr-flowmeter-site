@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { relays } from "$lib/config";
+import { relays } from "$lib/config";
 </script>
 
 <!-- {#if items} -->
@@ -57,9 +57,12 @@
   </div>
   <div class="col-md-3">
     <table class="mt-3">
-      <tr class="bg-sub">
-        <th>観測システム</th>
-      </tr>
+      <thead>
+        <tr class="bg-sub">
+          <th>観測システム</th>
+        </tr>
+      </thead>
+      <tbody>
       <tr>
         <td
           ><img
@@ -92,6 +95,7 @@
           ></td
         >
       </tr>
+      </tbody>
     </table>
   </div>
   <div class="col-12 mt-4">
@@ -104,7 +108,7 @@
       >
     </div>
   </div>
-  <div class="p-4" />
+  <div class="p-4"></div>
 </div>
 
 <!-- {/if} -->
