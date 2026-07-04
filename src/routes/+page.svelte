@@ -9,8 +9,8 @@ const showMigrationNotice =
 </script>
 
 <div class="bg-main text-center py-2">
-  <div class="fs-1">野洲田川水系</div>
-  <div class="fs-3 mt-2">定点観測所</div>
+  <div class="fs-1">野洲田川水系 定点観測所</div>
+  <div class="fs-5">―リアルタイム流速情報―</div>
 </div>
 {#if showMigrationNotice}
   <div class="max-width mx-auto px-3">
@@ -26,7 +26,8 @@ const showMigrationNotice =
     </div>
   </div>
 {/if}
-<div class="row max-width mx-auto pt-3">
+<div class="max-width mx-auto container pt-3">
+<div class="row">
   <div class="col-12">
     このサイトは Nostr 日本リレーの流速をグラフ表示化しています。<br />
     流速ちゃんがリレー上に投稿したKind 30078 をデータベースとしたシステムで、nostr-key-value
@@ -59,7 +60,7 @@ const showMigrationNotice =
             <td class="py-md-3">
               <a href="/{relay.key}" class="text-primary">{relay.river_name}</a>
             </td>
-            <td>
+            <td class="uri-cell">
               {relay.relay_url}
             </td>
           </tr>
@@ -122,6 +123,7 @@ const showMigrationNotice =
   </div>
   <div class="p-4"></div>
 </div>
+</div>
 
 <style>
   .migration-notice {
@@ -138,5 +140,14 @@ const showMigrationNotice =
     border: 1px solid #000;
     text-align: center;
     height: 1.5rem;
+  }
+  .uri-cell {
+    word-break: break-all;
+  }
+  /* モバイルでは大見出しを一段階（fs-2 相当に）縮小する */
+  @media (max-width: 575.98px) {
+    .fs-1 {
+      font-size: calc(1.325rem + 0.9vw) !important;
+    }
   }
 </style>
