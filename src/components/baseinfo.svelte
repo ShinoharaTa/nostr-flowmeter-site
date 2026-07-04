@@ -107,9 +107,12 @@ $: specRows = [
   .spec-wide-container {
     display: none;
   }
-  .spec-table-wide td,
+  /* 見出しは折り返さず、値セルは折り返して 960px 幅に収める */
   .spec-table-wide th {
     white-space: nowrap;
+  }
+  .spec-table-wide td {
+    word-break: break-all;
   }
   .spec-table-narrow th {
     width: 40%;
