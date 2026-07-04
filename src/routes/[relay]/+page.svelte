@@ -149,34 +149,25 @@ const selectDate = () => {
   >
 </div>
 
-<div class="bg-light-sub">
-  <div
-    class="max-width mx-auto d-md-flex justify-content-between align-items-bottom pb-3 container flex-row-reverse"
-  >
-    <div class="bg-main py-2 px-3 head-sub-title">
-      Nostr 日本語リレーリアルタイム流速検出システム
-    </div>
-    <div class="pt-2">{info.relay_url}</div>
-  </div>
+<div class="max-width mx-auto container py-1">
+  <nav class="breadcrumb-list" aria-label="パンくずリスト">
+    <a href="/">トップ</a>
+    &gt; 野洲田川水系 &gt; {info.river_name}観測所
+  </nav>
 </div>
-{#if info}
-  <div class="bg-light-sub">
-    <div
-      class="max-width mx-auto d-md-flex justify-content-between align-items-center container flex-row-reverse pt-2"
-    >
-      <div class="">
-        日付を選択：
-        <input
-          type="date"
-          class=""
-          bind:value={selectedDate}
-          on:change={selectDate}
-        />
-        {#if data.date === null && lastUpdated}
-          <div class="text-end">最終更新: {format(lastUpdated, "HH:mm")}</div>
-        {/if}
-      </div>
-      <div class="select-sector pt-2 pb-1 px-3 bg-white mt-2">
+
+<div class="max-width mx-auto container">
+  <div class="station-title">
+    {info.river_name}観測所
+    <span class="station-uri">（{info.relay_url}）</span>
+  </div>
+  <div class="station-sub">Nostr 日本語リレー リアルタイム流速検出システム</div>
+</div>
+
+<div class="bg-light-sub py-2 mt-2">
+  <div class="max-width mx-auto container">
+    <div class="control-bar">
+      <span class="control-group">
         <label for="mode-current" class="me-2">
           <input
             type="radio"
@@ -199,10 +190,19 @@ const selectDate = () => {
           />
           日付指定
         </label>
-      </div>
+      </span>
+      <span class="control-group">
+        日付を選択：
+        <input type="date" bind:value={selectedDate} on:change={selectDate} />
+      </span>
+      {#if data.date === null && lastUpdated}
+        <span class="control-group ms-md-auto">
+          最終更新: {format(lastUpdated, "HH:mm")}
+        </span>
+      {/if}
     </div>
   </div>
-{/if}
+</div>
 <div class="p-2"></div>
 
 {#if status === "ready" && axis && counts}
@@ -210,47 +210,92 @@ const selectDate = () => {
     <BaseInfo {info} {operation} />
   </div>
   <div class="p-2"></div>
-  <div class="row max-width mx-auto">
-    <div class="col-12 col-md-3 order-2">
-      <DataTable {axis} data={counts} />
-    </div>
-    <div class="col-12 col-md-9 order-1">
-      <Charts {axis} data={counts} />
+  <div class="max-width mx-auto container">
+    <div class="row">
+      <div class="col-12 col-md-3 order-2 position-relative">
+        <DataTable {axis} data={counts} />
+      </div>
+      <div class="col-12 col-md-9 order-1">
+        <Charts {axis} data={counts} />
+      </div>
     </div>
   </div>
 {:else if status === "nodata"}
-  <div class="row max-width mx-auto text-center mt-5">
-    <div class="fs-1"></div>
-    <div class="fs-3">No Data</div>
-    <div class="mt-4">指定日の観測データがありません</div>
+  <div class="max-width mx-auto container text-center mt-5">
+    <div class="row">
+      <div class="fs-1"></div>
+      <div class="fs-3">No Data</div>
+      <div class="mt-4">指定日の観測データがありません</div>
+    </div>
   </div>
 {:else if status === "error"}
-  <div class="row max-width mx-auto text-center mt-5">
-    <div class="fs-1"></div>
-    <div class="fs-3">Error</div>
-    <div class="mt-4">
-      データを取得できませんでした。時間をおいて再読み込みしてください
+  <div class="max-width mx-auto container text-center mt-5">
+    <div class="row">
+      <div class="fs-1"></div>
+      <div class="fs-3">Error</div>
+      <div class="mt-4">
+        データを取得できませんでした。時間をおいて再読み込みしてください
+      </div>
     </div>
   </div>
 {:else}
-  <div class="row max-width mx-auto text-center mt-5">
-    <div class="fs-1"></div>
-    <div class="fs-3">Now loading...</div>
-    <div class="mt-4">読み込み中</div>
+  <div class="max-width mx-auto container text-center mt-5">
+    <div class="row">
+      <div class="fs-1"></div>
+      <div class="fs-3">Now loading...</div>
+      <div class="mt-4">読み込み中</div>
+    </div>
   </div>
 {/if}
+
+<div class="max-width mx-auto container mt-3 mb-4">
+  <div class="data-note">
+    このデータは速報値であり、後日修正されることがあります。<br />
+    観測は毎分、表示は10分毎の集計値です。ページは5分毎に自動更新されます。
+  </div>
+</div>
 
 <style>
   a {
     text-decoration: none;
   }
-  .select-sector {
-    border-radius: 10px 10px 0 0;
+  .station-title {
+    font-size: 18px;
+    font-weight: bold;
+    border-left: 5px solid #0b346e;
+    border-bottom: 1px solid #0b346e;
+    padding: 2px 8px;
+    margin-top: 0.25rem;
   }
-  .select-sector input {
+  .station-uri {
+    font-size: 12px;
+    font-weight: normal;
+    word-break: break-all;
+  }
+  .station-sub {
+    font-size: 11px;
+    color: #666;
+    padding-left: 13px;
+    margin-top: 2px;
+  }
+  .control-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem 1.5rem;
+  }
+  .control-bar input[type="radio"] {
     vertical-align: middle;
   }
-  .head-sub-title {
-    border-radius: 0 0 10px 10px;
+  .data-note {
+    font-size: 11px;
+    color: #666;
+  }
+  .breadcrumb-list {
+    font-size: 11px;
+  }
+  .breadcrumb-list a {
+    text-decoration: underline;
+    color: #0b346e;
   }
 </style>

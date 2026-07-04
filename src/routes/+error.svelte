@@ -7,11 +7,13 @@ import { page } from "$app/stores";
   >
 </div>
 
-<div class="row max-width mx-auto text-center mt-5">
-  <div class="fs-1">{$page.status}</div>
-  <div class="fs-3">{$page.status === 404 ? "Not Found" : "Error"}</div>
-  <div class="mt-4">
-    {$page.error?.message ?? "エラーが発生しました"}
+<div class="max-width mx-auto container">
+  <div class="row text-center mt-5">
+    <div class="fs-1">{$page.status}</div>
+    <div class="fs-3">{$page.status === 404 ? "Not Found" : "Error"}</div>
+    <div class="mt-4">
+      {$page.error?.message ?? "エラーが発生しました"}
+    </div>
   </div>
 </div>
 

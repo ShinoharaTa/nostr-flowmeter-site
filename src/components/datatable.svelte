@@ -1,5 +1,6 @@
 <script lang="ts">
 import { format, fromUnixTime, isSameDay, isSameHour } from "date-fns";
+import { FLOW_LEVELS } from "$lib/config";
 export let axis: number[];
 export let data: number[];
 type Row = {
@@ -29,7 +30,11 @@ function buildRows(axis: number[], data: number[]): Row[] {
 $: formatted = buildRows(axis, data);
 </script>
 
-<span>測位情報 (posts / 10min)</span>
+<div class="datatable-root">
+<div class="table-label">
+  <span>観測値</span>
+  <span class="unit-note">(単位: 投稿/10分)</span>
+</div>
 <div class="table-container">
   <table>
     <thead class="sticky-top">
@@ -50,11 +55,16 @@ $: formatted = buildRows(axis, data);
             >{#if item.showTime}{format(item.date, "HH")}{/if}</td
           >
           <td>{format(item.date, "mm")}</td>
-          <td class="text-end no-border-left">{item.count}</td>
+          <td
+            class="text-end no-border-left"
+            class:level-attention={item.count >= FLOW_LEVELS.attention}
+            class:level-danger={item.count >= FLOW_LEVELS.danger}>{item.count}</td
+          >
         </tr>
       {/each}
     </tbody>
   </table>
+</div>
 </div>
 
 <style>
@@ -64,9 +74,21 @@ $: formatted = buildRows(axis, data);
     font-size: 12px;
     border: 1px solid #000;
   }
+  /* PC ではグラフ列の高さに合わせて表を収め、表内でスクロールさせる */
   @media (min-width: 768px) {
+    .datatable-root {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0.75rem;
+      right: 0.75rem;
+      display: flex;
+      flex-direction: column;
+    }
     .table-container {
-      height: 60vh;
+      flex: 1 1 auto;
+      min-height: 0;
+      height: auto;
     }
   }
 
@@ -81,6 +103,20 @@ $: formatted = buildRows(axis, data);
   }
   .no-border-left {
     border-left: solid 1px #000;
+  }
+  .table-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .unit-note {
+    font-size: 12px;
+  }
+  .level-attention {
+    background-color: #fff3cd;
+  }
+  .level-danger {
+    background-color: #f8d7da;
   }
   table {
     width: 100%;
