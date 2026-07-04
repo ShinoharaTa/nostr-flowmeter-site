@@ -1,24 +1,32 @@
 <script lang="ts">
-  import type { ChartDatasets } from "$lib/app";
-  import { format, fromUnixTime, isSameDay, isSameHour } from "date-fns";
-  export let axis: number[];
-  export let data: number[];
-  const formatted: any = [];
-  const formattedAxis = axis.reverse()
-  const formatteddata = data.reverse()
-  for (let i = 0; i < formattedAxis.length; i++) {
-    const date = fromUnixTime(formattedAxis[i])
-    const date_before = fromUnixTime(formattedAxis[i - 1])
-    formatted.push({
+import { format, fromUnixTime, isSameDay, isSameHour } from "date-fns";
+export let axis: number[];
+export let data: number[];
+type Row = {
+  date: Date;
+  showDate: boolean;
+  showTime: boolean;
+  count: number;
+};
+
+function buildRows(axis: number[], data: number[]): Row[] {
+  const rows: Row[] = [];
+  const reversedAxis = [...axis].reverse();
+  const reversedData = [...data].reverse();
+  for (let i = 0; i < reversedAxis.length; i++) {
+    const date = fromUnixTime(reversedAxis[i]);
+    const date_before = fromUnixTime(reversedAxis[i - 1]);
+    rows.push({
       date,
-      showDate:
-        i === 0 || !isSameDay(date, date_before),
-      showTime:
-        i === 0 ||
-        !isSameHour(date, date_before),
-      count: formatteddata[i],
+      showDate: i === 0 || !isSameDay(date, date_before),
+      showTime: i === 0 || !isSameHour(date, date_before),
+      count: reversedData[i],
     });
   }
+  return rows;
+}
+
+$: formatted = buildRows(axis, data);
 </script>
 
 <span>測位情報 (posts / 10min)</span>

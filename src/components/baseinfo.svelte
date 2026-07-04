@@ -1,6 +1,13 @@
 <script lang="ts">
-  import type { RelayItem } from "$lib/config";
-  export let info: RelayItem;
+import type { RelayItem } from "$lib/config";
+export let info: RelayItem;
+export let operation: "計測中" | "欠測" | "過去ログ" = "計測中";
+
+const operationClasses = {
+  計測中: "text-success",
+  欠測: "text-danger",
+  過去ログ: "text-secondary",
+} as const;
 </script>
 
 <table>
@@ -25,17 +32,17 @@
           ><a
             href="https://nostx.shino3.net/npub150qnaaxfan8auqdajvn292cgk2khm3tl8dmakamj878z44a6yntqk7uktv"
             class="text-primary"
-            target="_blank">流速ちゃん</a
+            target="_blank" rel="noopener noreferrer">流速ちゃん</a
           ></span
         ></td
       >
-      <td class="text-success"><span>計測中</span></td>
+      <td class={operationClasses[operation]}><span>{operation}</span></td>
     </tr>
   </tbody>
 </table>
 {#if info.live_cam}
   <div class="text-end mt-2">
-    <a href={info.live_cam_url} target="_blank" class="text-danger"
+    <a href={info.live_cam_url} target="_blank" rel="noopener noreferrer" class="text-danger"
       >ライブカメラで河川の様子をみる</a
     >
   </div>
