@@ -1,57 +1,57 @@
 <script lang="ts">
-import { format, isValid, parse } from "date-fns";
-import { page } from "$app/stores";
+import { format, parse } from "date-fns";
+import { browser } from "$app/environment";
+import { goto } from "$app/navigation";
 import { getGraphData } from "$lib/app";
-import { getRelay, type RelayItem } from "$lib/config";
 import BaseInfo from "../../components/baseinfo.svelte";
 import Charts from "../../components/charts.svelte";
 import DataTable from "../../components/datatable.svelte";
+import type { PageData } from "./$types";
 
-const relay: string = $page.params.relay ?? "";
-const date = $page.url.searchParams.get("d");
+export let data: PageData;
+
+let axis: number[] | null = null;
+let counts: number[] | null = null;
 let selectedDate = format(new Date(), "yyyy-MM-dd");
 let radioSelection = "0";
+let requestId = 0;
 
-const query = $page.url.searchParams;
+$: info = data.info;
+$: syncControls(data.date);
+$: if (browser && info) fetchData(data.relayKey, data.date);
 
-if (date) {
-  const parsedDate = parse(date, "yyyyMMdd", new Date());
-  if (isValid(parsedDate)) {
-    selectedDate = format(parsedDate, "yyyy-MM-dd");
+function syncControls(date: string | null) {
+  if (date) {
+    selectedDate = format(parse(date, "yyyyMMdd", new Date()), "yyyy-MM-dd");
     radioSelection = "1";
   } else {
-    console.error("Invalid date parameter:", date);
+    selectedDate = format(new Date(), "yyyy-MM-dd");
+    radioSelection = "0";
   }
 }
 
-const update = async () => {
-  if (radioSelection === "0") {
-    selectedDate = format(new Date(), "yyyy-MM-dd");
-    query.delete("d");
-    history.replaceState(history.state, "", $page.url);
-    location.href = $page.url.toString();
-  }
-  if (radioSelection === "1") {
-    query.set("d", format(new Date(), "yyyyMMdd"));
-    history.replaceState(history.state, "", $page.url);
-    location.href = $page.url.toString();
-  }
-};
-const selectDate = async () => {
-  query.set("d", format(new Date(selectedDate), "yyyyMMdd"));
-  history.replaceState(history.state, "", $page.url);
-  location.href = $page.url.toString();
-};
-let axis: number[];
-let data: number[];
-(async () => {
+async function fetchData(relayKey: string, date: string | null) {
+  const id = ++requestId;
+  axis = null;
+  counts = null;
   const dateKey = date ? `_${date}` : "";
   const result = await getGraphData(`nostr_river_flowmeter${dateKey}`);
+  if (id !== requestId) return;
   if (!result) return;
   axis = result.axis;
-  data = relay in result.data ? result.data[relay] : [];
-})();
-const info: RelayItem | undefined = getRelay(relay);
+  counts = relayKey in result.data ? result.data[relayKey] : [];
+}
+
+const update = () => {
+  if (radioSelection === "0") {
+    goto(`/${data.relayKey}`);
+  } else {
+    goto(`/${data.relayKey}?d=${format(new Date(), "yyyyMMdd")}`);
+  }
+};
+const selectDate = () => {
+  goto(`/${data.relayKey}?d=${format(new Date(selectedDate), "yyyyMMdd")}`);
+};
 </script>
 
 <div class="text-center bg-main p-2">
@@ -112,18 +112,17 @@ const info: RelayItem | undefined = getRelay(relay);
 {/if}
 <div class="p-2"></div>
 
-{#if axis && data && info}
+{#if axis && counts && info}
   <div class="max-width mx-auto container">
     <BaseInfo {info} />
   </div>
   <div class="p-2"></div>
   <div class="row max-width mx-auto">
     <div class="col-12 col-md-3 order-2">
-      <DataTable {axis} {data} />
+      <DataTable {axis} data={counts} />
     </div>
     <div class="col-12 col-md-9 order-1">
-      <Charts {axis} {data} />
-      <!-- <Charts {items} /> -->
+      <Charts {axis} data={counts} />
     </div>
   </div>
 {:else if info}
