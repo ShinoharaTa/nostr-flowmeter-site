@@ -156,34 +156,18 @@ const selectDate = () => {
   </nav>
 </div>
 
-<div class="bg-light-sub">
-  <div
-    class="max-width mx-auto d-md-flex justify-content-between align-items-bottom pb-3 container flex-row-reverse"
-  >
-    <div class="bg-main py-2 px-3 head-sub-title">
-      Nostr 日本語リレーリアルタイム流速検出システム
-    </div>
-    <div class="pt-2">{info.relay_url}</div>
+<div class="max-width mx-auto container">
+  <div class="station-title">
+    {info.river_name}観測所
+    <span class="station-uri">（{info.relay_url}）</span>
   </div>
+  <div class="station-sub">Nostr 日本語リレー リアルタイム流速検出システム</div>
 </div>
-{#if info}
-  <div class="bg-light-sub">
-    <div
-      class="max-width mx-auto d-md-flex justify-content-between align-items-center container flex-row-reverse pt-2"
-    >
-      <div class="">
-        日付を選択：
-        <input
-          type="date"
-          class=""
-          bind:value={selectedDate}
-          on:change={selectDate}
-        />
-        {#if data.date === null && lastUpdated}
-          <div class="text-end">最終更新: {format(lastUpdated, "HH:mm")}</div>
-        {/if}
-      </div>
-      <div class="select-sector pt-2 pb-1 px-3 bg-white mt-2">
+
+<div class="bg-light-sub py-2 mt-2">
+  <div class="max-width mx-auto container">
+    <div class="control-bar">
+      <span class="control-group">
         <label for="mode-current" class="me-2">
           <input
             type="radio"
@@ -206,10 +190,19 @@ const selectDate = () => {
           />
           日付指定
         </label>
-      </div>
+      </span>
+      <span class="control-group">
+        日付を選択：
+        <input type="date" bind:value={selectedDate} on:change={selectDate} />
+      </span>
+      {#if data.date === null && lastUpdated}
+        <span class="control-group ms-md-auto">
+          最終更新: {format(lastUpdated, "HH:mm")}
+        </span>
+      {/if}
     </div>
   </div>
-{/if}
+</div>
 <div class="p-2"></div>
 
 {#if status === "ready" && axis && counts}
@@ -219,7 +212,7 @@ const selectDate = () => {
   <div class="p-2"></div>
   <div class="max-width mx-auto container">
     <div class="row">
-      <div class="col-12 col-md-3 order-2">
+      <div class="col-12 col-md-3 order-2 position-relative">
         <DataTable {axis} data={counts} />
       </div>
       <div class="col-12 col-md-9 order-1">
@@ -266,7 +259,32 @@ const selectDate = () => {
   a {
     text-decoration: none;
   }
-  .select-sector input {
+  .station-title {
+    font-size: 18px;
+    font-weight: bold;
+    border-left: 5px solid #0b346e;
+    border-bottom: 1px solid #0b346e;
+    padding: 2px 8px;
+    margin-top: 0.25rem;
+  }
+  .station-uri {
+    font-size: 12px;
+    font-weight: normal;
+    word-break: break-all;
+  }
+  .station-sub {
+    font-size: 11px;
+    color: #666;
+    padding-left: 13px;
+    margin-top: 2px;
+  }
+  .control-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem 1.5rem;
+  }
+  .control-bar input[type="radio"] {
     vertical-align: middle;
   }
   .data-note {
