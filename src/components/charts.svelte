@@ -76,7 +76,7 @@ onMount(() => {
     options: {
       animation: false,
       responsive: true,
-      aspectRatio: 1,
+      maintainAspectRatio: false,
       scales: {
         x: {
           type: "time",
@@ -109,26 +109,18 @@ onDestroy(() => {
 </script>
 
 <div class="mx-auto chart_size">
-  <canvas bind:this={chartCanvas} class="img-fluid canvas"></canvas>
+  <canvas bind:this={chartCanvas}></canvas>
 </div>
 
 <style>
-  .canvas {
-    min-width: 300px;
-    min-height: 300px;
-    width: 85vw;
-    height: 85vw;
-  }
   .chart_size {
-    min-width: 300px;
-    min-height: 300px;
-    width: 85vw;
-    height: 85vw;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 2 / 1;
   }
-  @media (min-width: 768px) {
+  @media (max-width: 767px) {
     .chart_size {
-      width: 100%;
-      height: initial;
+      aspect-ratio: 4 / 3;
     }
   }
 </style>
