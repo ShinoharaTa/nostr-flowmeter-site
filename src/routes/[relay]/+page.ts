@@ -1,6 +1,6 @@
-import { getRelay } from "$lib/config";
 import { error } from "@sveltejs/kit";
 import { isValid, parse } from "date-fns";
+import { getRelay } from "$lib/config";
 import type { PageLoad } from "./$types";
 
 export const load: PageLoad = ({ params, url }) => {

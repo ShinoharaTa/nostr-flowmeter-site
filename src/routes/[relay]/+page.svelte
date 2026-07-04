@@ -1,5 +1,6 @@
 <script lang="ts">
 import { format, parse } from "date-fns";
+import { onDestroy, onMount } from "svelte";
 import { browser } from "$app/environment";
 import { goto } from "$app/navigation";
 import { getGraphData } from "$lib/app";
@@ -10,16 +11,21 @@ import type { PageData } from "./$types";
 
 export let data: PageData;
 
+const REFRESH_INTERVAL_MS = 5 * 60 * 1000;
+
 let axis: number[] | null = null;
 let counts: number[] | null = null;
 let status: "loading" | "ready" | "nodata" | "error" = "loading";
 let selectedDate = format(new Date(), "yyyy-MM-dd");
 let radioSelection = "0";
 let requestId = 0;
+let lastUpdated: Date | null = null;
+let refreshTimer: ReturnType<typeof setInterval> | null = null;
 
 $: info = data.info;
 $: syncControls(data.date);
 $: if (browser && info) fetchData(data.relayKey, data.date);
+$: if (browser) syncAutoRefresh(data.date);
 
 function syncControls(date: string | null) {
   if (date) {
@@ -31,26 +37,83 @@ function syncControls(date: string | null) {
   }
 }
 
-async function fetchData(relayKey: string, date: string | null) {
+function startAutoRefresh() {
+  if (refreshTimer !== null) return;
+  refreshTimer = setInterval(() => {
+    fetchData(data.relayKey, data.date, true);
+  }, REFRESH_INTERVAL_MS);
+}
+
+function stopAutoRefresh() {
+  if (refreshTimer !== null) {
+    clearInterval(refreshTimer);
+    refreshTimer = null;
+  }
+}
+
+// リアルタイム表示（date が null）のときだけ自動更新する
+function syncAutoRefresh(date: string | null) {
+  stopAutoRefresh();
+  if (date === null && !document.hidden) {
+    startAutoRefresh();
+  }
+}
+
+// タブ非表示中は自動更新を止め、復帰時に即時更新して再開する
+function handleVisibilityChange() {
+  if (document.hidden) {
+    stopAutoRefresh();
+  } else if (data.date === null) {
+    fetchData(data.relayKey, data.date, true);
+    startAutoRefresh();
+  }
+}
+
+onMount(() => {
+  document.addEventListener("visibilitychange", handleVisibilityChange);
+});
+
+onDestroy(() => {
+  stopAutoRefresh();
+  if (browser) {
+    document.removeEventListener("visibilitychange", handleVisibilityChange);
+  }
+});
+
+// silent: 自動更新用。既存表示を維持したまま裏で取得し、成功時のみ差し替える
+async function fetchData(
+  relayKey: string,
+  date: string | null,
+  silent = false,
+) {
   const id = ++requestId;
-  axis = null;
-  counts = null;
-  status = "loading";
+  if (!silent) {
+    axis = null;
+    counts = null;
+    status = "loading";
+  }
   const dateKey = date ? `_${date}` : "";
   try {
     const result = await getGraphData(`nostr_river_flowmeter${dateKey}`);
     if (id !== requestId) return;
     if (!result) {
-      status = date ? "nodata" : "error";
+      if (silent) {
+        console.error("Auto refresh returned no data");
+      } else {
+        status = date ? "nodata" : "error";
+      }
       return;
     }
     axis = result.axis;
     counts = relayKey in result.data ? result.data[relayKey] : [];
     status = "ready";
+    lastUpdated = new Date();
   } catch (e) {
     if (id !== requestId) return;
     console.error("Failed to fetch graph data:", e);
-    status = "error";
+    if (!silent) {
+      status = "error";
+    }
   }
 }
 
@@ -95,6 +158,9 @@ const selectDate = () => {
           bind:value={selectedDate}
           on:change={selectDate}
         />
+        {#if data.date === null && lastUpdated}
+          <div class="text-end">最終更新: {format(lastUpdated, "HH:mm")}</div>
+        {/if}
       </div>
       <div class="select-sector pt-2 pb-1 px-3 bg-white mt-2">
         <label for="mode-current" class="me-2">
