@@ -8,23 +8,18 @@ import {
 } from "chart.js";
 import "chartjs-adapter-date-fns";
 import { fromUnixTime } from "date-fns";
-import { onMount } from "svelte";
+import { onDestroy, onMount } from "svelte";
 export let axis: number[];
 export let data: number[];
 
-const formatted = {
+Chart.register(TimeScale, LinearScale, BarController, BarElement);
+
+let chartCanvas: HTMLCanvasElement;
+let chart: Chart | undefined;
+
+const buildChartData = (axis: number[], data: number[]) => ({
   labels: axis.map((item) => fromUnixTime(item)),
   datasets: [
-    // {
-    //   type: "line",
-    //   label: "移動平均",
-    //   data: items.map((item) => item.movingAvg),
-    //   cubicInterpolationMode: "monotone",
-    //   borderColor: "#113285",
-    //   borderWidth: 1.2,
-    //   borderJoinStyle: "none",
-    //   pointStyle: false,
-    // },
     {
       type: "bar" as const,
       label: "投稿数",
@@ -32,13 +27,16 @@ const formatted = {
       backgroundColor: "#58B2DC",
     },
   ],
-};
+});
 
-let chartCanvas: HTMLCanvasElement;
-Chart.register(TimeScale, LinearScale, BarController, BarElement);
-function renderChart() {
-  new Chart(chartCanvas, {
-    data: formatted,
+$: if (chart) {
+  chart.data = buildChartData(axis, data);
+  chart.update();
+}
+
+onMount(() => {
+  chart = new Chart(chartCanvas, {
+    data: buildChartData(axis, data),
     options: {
       animation: false,
       responsive: true,
@@ -66,10 +64,11 @@ function renderChart() {
       },
     },
   });
-}
+});
 
-onMount(() => {
-  renderChart();
+onDestroy(() => {
+  chart?.destroy();
+  chart = undefined;
 });
 </script>
 
