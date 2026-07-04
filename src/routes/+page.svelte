@@ -17,13 +17,13 @@ import { relays } from "$lib/config";
     サイト管理者:
     <a
       href="https://nostx.shino3.net/npub1l60d6h2uvdwa9yq0r7r2suhgrnsadcst6nsx2j03xwhxhu2cjyascejxe5"
-      target="_blank"
+      target="_blank" rel="noopener noreferrer"
       class="text-success">shino3（しのさん）</a
     ><br />
     ページソース・質問・お問い合わせ:
     <a
       href="https://github.com/ShinoharaTa/nostr-flowmeter-site"
-      target="_blank">GitHub</a
+      target="_blank" rel="noopener noreferrer">GitHub</a
     >
     <!-- <br>
     <br>
@@ -66,8 +66,8 @@ import { relays } from "$lib/config";
       <tr>
         <td
           ><img
-            src="https://i.gyazo.com/5d38eb6b55fbacfa81f836eb191b1a76.jpg"
-            alt=""
+            src="/image/ryusoku-chan.jpg"
+            alt="流速ちゃんのイラスト"
             class="img-fluid"
           /></td
         >
@@ -76,7 +76,7 @@ import { relays } from "$lib/config";
         <td
           ><a
             href="https://nostx.shino3.net/npub150qnaaxfan8auqdajvn292cgk2khm3tl8dmakamj878z44a6yntqk7uktv"
-            target="_blank"
+            target="_blank" rel="noopener noreferrer"
             class="text-success">流速ちゃん</a
           ></td
         >
@@ -91,7 +91,7 @@ import { relays } from "$lib/config";
         <td
           >Illust by <a
             href="https://nostx.shino3.net/npub1tuqsl6l8xzly95vv80um7wsnt7gxy8w9wgt4khp4wyv4xwhfw44slm93e9"
-            target="_blank">© りら</a
+            target="_blank" rel="noopener noreferrer">© りら</a
           ></td
         >
       </tr>
@@ -100,11 +100,11 @@ import { relays } from "$lib/config";
   </div>
   <div class="col-12 mt-4">
     <div class="h5">野洲田川水系 河川構成図</div>
-    <div><img src="/image/river_image.png" alt="" class="img-fluid" /></div>
+    <div><img src="/image/river_image.png" alt="野洲田川水系 河川構成図" class="img-fluid" /></div>
     <div class="text-center">
       Illust by <a
         href="https://nostx.shino3.net/npub1e4qg56wvd3ehegd8dm7rlgj8cm998myq0ah8e9t5zeqkg7t7s93q750p76"
-        target="_blank">© あわゆき</a
+        target="_blank" rel="noopener noreferrer">© あわゆき</a
       >
     </div>
   </div>
