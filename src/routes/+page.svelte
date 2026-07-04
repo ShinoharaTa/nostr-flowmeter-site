@@ -121,10 +121,18 @@ const countClass = (count: number | null): string => {
         {@const info = current[relay.key]}
         <tr>
           <td class="py-md-2">
-            <a href="/{relay.key}" class="text-primary">{relay.river_name}</a>
+            {#if relay.status === "active"}
+              <a href="/{relay.key}" class="text-primary">{relay.river_name}</a>
+            {:else}
+              <span class="text-secondary">{relay.river_name}</span>
+            {/if}
           </td>
           <td class="uri-cell d-none d-md-table-cell">{relay.relay_url}</td>
-          {#if fetchState === "loading"}
+          {#if relay.status === "discontinued"}
+            <td>-</td>
+            <td class="text-secondary">廃止</td>
+            <td>-</td>
+          {:else if fetchState === "loading"}
             <td class="text-secondary">取得中</td>
             <td class="text-secondary">取得中</td>
             <td class="text-secondary">-</td>

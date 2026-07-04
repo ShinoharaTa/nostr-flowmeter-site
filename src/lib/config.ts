@@ -1,3 +1,4 @@
+export type RelayStatus = "active" | "discontinued";
 export type Relays = RelayItem[];
 export type RelayItem = {
   key: string;
@@ -5,8 +6,11 @@ export type RelayItem = {
   relay_url: string;
   live_cam: boolean;
   live_cam_url: string;
+  status: RelayStatus;
 };
 
+// 流速ちゃん本体（nostr-flowmeter-batch）のリレー一覧と同期して管理する。
+// 廃止水系は一覧表示のみ残し、詳細ページへはリンクしない
 export const relays: Relays = [
   {
     key: "kirino",
@@ -14,6 +18,7 @@ export const relays: Relays = [
     relay_url: "wss://relay-jp.nostr.wirednet.jp",
     live_cam: true,
     live_cam_url: "https://relay-jp.nostr.wirednet.jp/index.html",
+    status: "active",
   },
   {
     key: "yabumi",
@@ -21,13 +26,7 @@ export const relays: Relays = [
     relay_url: "wss://yabu.me",
     live_cam: false,
     live_cam_url: "",
-  },
-  {
-    key: "holybea",
-    river_name: "ほりべあ川",
-    relay_url: "wss://nostr.holybea.com",
-    live_cam: false,
-    live_cam_url: "",
+    status: "active",
   },
   {
     key: "c-stellar",
@@ -35,6 +34,7 @@ export const relays: Relays = [
     relay_url: "wss://nrelay-jp.c-stellar.net",
     live_cam: false,
     live_cam_url: "",
+    status: "active",
   },
   {
     key: "kojira",
@@ -42,6 +42,15 @@ export const relays: Relays = [
     relay_url: "wss://r.kojira.io",
     live_cam: false,
     live_cam_url: "",
+    status: "active",
+  },
+  {
+    key: "kojira_g",
+    river_name: "こじら大川",
+    relay_url: "wss://x.kojira.io",
+    live_cam: false,
+    live_cam_url: "",
+    status: "active",
   },
   {
     key: "shino3",
@@ -49,13 +58,15 @@ export const relays: Relays = [
     relay_url: "wss://relay-jp.shino3.net",
     live_cam: false,
     live_cam_url: "",
+    status: "active",
   },
   {
-    key: "takenoko_g",
-    river_name: "のこたろ川(GLOBAL)",
-    relay_url: "wss://nostr-relay.nokotaro.com",
+    key: "shino3_g",
+    river_name: "しの川(GLOBAL)",
+    relay_url: "wss://relay.nostx.io",
     live_cam: false,
     live_cam_url: "",
+    status: "active",
   },
   {
     key: "kirino_g",
@@ -63,11 +74,29 @@ export const relays: Relays = [
     relay_url: "wss://relay.nostr.wirednet.jp",
     live_cam: false,
     live_cam_url: "",
+    status: "active",
+  },
+  {
+    key: "holybea",
+    river_name: "ほりべあ川",
+    relay_url: "wss://nostr.holybea.com",
+    live_cam: false,
+    live_cam_url: "",
+    status: "discontinued",
+  },
+  {
+    key: "takenoko_g",
+    river_name: "のこたろ川(GLOBAL)",
+    relay_url: "wss://nostr-relay.nokotaro.com",
+    live_cam: false,
+    live_cam_url: "",
+    status: "discontinued",
   },
 ];
 
+// 稼働中の観測所のみ返す（廃止水系の詳細ページは 404 にする）
 export const getRelay = (key: string): RelayItem | undefined => {
-  return relays.find((item) => item.key === key);
+  return relays.find((item) => item.key === key && item.status === "active");
 };
 
 // 流速水準（官公庁の水位基準風、単位: posts/10min）。プレビュー後に調整可
