@@ -25,7 +25,7 @@ export let info: RelayItem;
           ><a
             href="https://nostx.shino3.net/npub150qnaaxfan8auqdajvn292cgk2khm3tl8dmakamj878z44a6yntqk7uktv"
             class="text-primary"
-            target="_blank">流速ちゃん</a
+            target="_blank" rel="noopener noreferrer">流速ちゃん</a
           ></span
         ></td
       >
@@ -35,7 +35,7 @@ export let info: RelayItem;
 </table>
 {#if info.live_cam}
   <div class="text-end mt-2">
-    <a href={info.live_cam_url} target="_blank" class="text-danger"
+    <a href={info.live_cam_url} target="_blank" rel="noopener noreferrer" class="text-danger"
       >ライブカメラで河川の様子をみる</a
     >
   </div>
