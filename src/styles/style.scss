@@ -1,15 +1,10 @@
-
 body {
-  // background-color: #101010;
-  // color: #eeeeee;
-  // font-family: 'Noto Serif JP', serif;
-  // font-family: 'Playfair Display', serif;
-  font-family: initial;
+  font-family: "sans-serif";
   font-size: 13px;
 }
 
 textarea {
-  font-family: initial;
+  font-family: "sans-serif";
 }
 
 .page {
@@ -17,9 +12,6 @@ textarea {
   max-width: 480px;
   margin: 0 auto;
   height: 100vh;
-  // display: flex;
-  // justify-content: center;
-  // align-items: center;
 }
 
 .footer {

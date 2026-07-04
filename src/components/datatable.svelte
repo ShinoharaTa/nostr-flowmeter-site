@@ -1,26 +1,25 @@
 <script lang="ts">
-  import { format, isSameDay, isSameHour } from "date-fns";
-  import type { ChartDatasets } from "$lib/app";
-  export let items: ChartDatasets;
-  const formatted: any = [];
-  const sortedItems = {
-    labels: items.map((item) => item.label),
-    count: items.map((item) => item.count),
-  };
-  // console.log(items)
-  sortedItems.count.reverse();
-  sortedItems.labels.reverse();
-  for (let i = 0; i < sortedItems.labels.length; i++) {
-    formatted.push({
-      date: sortedItems.labels[i],
-      showDate:
-        i === 0 || !isSameDay(sortedItems.labels[i], sortedItems.labels[i - 1]),
-      showTime:
-        i === 0 ||
-        !isSameHour(sortedItems.labels[i], sortedItems.labels[i - 1]),
-      count: sortedItems.count[i],
-    });
-  }
+import { format, fromUnixTime, isSameDay, isSameHour } from "date-fns";
+export let axis: number[];
+export let data: number[];
+const formatted: {
+  date: Date;
+  showDate: boolean;
+  showTime: boolean;
+  count: number;
+}[] = [];
+const formattedAxis = axis.reverse();
+const formatteddata = data.reverse();
+for (let i = 0; i < formattedAxis.length; i++) {
+  const date = fromUnixTime(formattedAxis[i]);
+  const date_before = fromUnixTime(formattedAxis[i - 1]);
+  formatted.push({
+    date,
+    showDate: i === 0 || !isSameDay(date, date_before),
+    showTime: i === 0 || !isSameHour(date, date_before),
+    count: formatteddata[i],
+  });
+}
 </script>
 
 <span>測位情報 (posts / 10min)</span>
@@ -53,14 +52,14 @@
 
 <style>
   .table-container {
-    max-height: 40vh;
+    height: 400px;
     overflow-y: scroll;
     font-size: 12px;
     border: 1px solid #000;
   }
   @media (min-width: 768px) {
     .table-container {
-      max-height: 60vh;
+      height: 60vh;
     }
   }
 

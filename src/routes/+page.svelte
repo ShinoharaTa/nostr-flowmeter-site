@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { relays } from "$lib/config";
+import { relays } from "$lib/config";
 </script>
 
 <!-- {#if items} -->
@@ -25,9 +25,9 @@
       href="https://github.com/ShinoharaTa/nostr-flowmeter-site"
       target="_blank">GitHub</a
     >
+    <!-- <br>
     <br>
-    <br>
-    ※ このサイトに掲載されているロゴ・イラストは許諾を得て掲載させていただいております。<br>
+    ※ このサイトに掲載されているロゴ・イラストは許諾を得て掲載させていただいております。<br> -->
   </div>
   <div class="col-md-9">
     <table class="mt-3">
@@ -57,9 +57,12 @@
   </div>
   <div class="col-md-3">
     <table class="mt-3">
-      <tr class="bg-sub">
-        <th>観測システム</th>
-      </tr>
+      <thead>
+        <tr class="bg-sub">
+          <th>観測システム</th>
+        </tr>
+      </thead>
+      <tbody>
       <tr>
         <td
           ><img
@@ -92,18 +95,19 @@
           ></td
         >
       </tr>
+      </tbody>
     </table>
   </div>
-  <!-- <div class="col-12 mt-4">
+  <div class="col-12 mt-4">
     <div class="h5">野洲田川水系 河川構成図</div>
-    <div><img src="" alt="" class="img-fluid" /></div>
+    <div><img src="/image/river_image.png" alt="" class="img-fluid" /></div>
     <div class="text-center">
       Illust by <a
         href="https://nostx.shino3.net/npub1e4qg56wvd3ehegd8dm7rlgj8cm998myq0ah8e9t5zeqkg7t7s93q750p76"
         target="_blank">© あわゆき</a
       >
     </div>
-  </div> -->
+  </div>
   <div class="p-4"></div>
 </div>
 
