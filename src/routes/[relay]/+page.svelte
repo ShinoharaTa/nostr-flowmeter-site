@@ -149,6 +149,13 @@ const selectDate = () => {
   >
 </div>
 
+<div class="max-width mx-auto container py-1">
+  <nav class="breadcrumb-list" aria-label="パンくずリスト">
+    <a href="/">トップ</a>
+    &gt; 野洲田川水系 &gt; {info.river_name}観測所
+  </nav>
+</div>
+
 <div class="bg-light-sub">
   <div
     class="max-width mx-auto d-md-flex justify-content-between align-items-bottom pb-3 container flex-row-reverse"
@@ -265,5 +272,12 @@ const selectDate = () => {
   .data-note {
     font-size: 11px;
     color: #666;
+  }
+  .breadcrumb-list {
+    font-size: 11px;
+  }
+  .breadcrumb-list a {
+    text-decoration: underline;
+    color: #0b346e;
   }
 </style>
