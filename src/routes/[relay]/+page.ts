@@ -1,9 +1,13 @@
 import { getRelay } from "$lib/config";
+import { error } from "@sveltejs/kit";
 import { isValid, parse } from "date-fns";
 import type { PageLoad } from "./$types";
 
 export const load: PageLoad = ({ params, url }) => {
   const info = getRelay(params.relay);
+  if (!info) {
+    error(404, "ページが見つかりません");
+  }
 
   const dateParam = url.searchParams.get("d");
   let date: string | null = null;

@@ -66,7 +66,7 @@ const selectDate = () => {
     <div class="bg-main py-2 px-3 head-sub-title">
       Nostr 日本語リレーリアルタイム流速検出システム
     </div>
-    <div class="pt-2">{info?.relay_url ?? ""}</div>
+    <div class="pt-2">{info.relay_url}</div>
   </div>
 </div>
 {#if info}
@@ -112,7 +112,7 @@ const selectDate = () => {
 {/if}
 <div class="p-2"></div>
 
-{#if axis && counts && info}
+{#if axis && counts}
   <div class="max-width mx-auto container">
     <BaseInfo {info} />
   </div>
@@ -125,17 +125,11 @@ const selectDate = () => {
       <Charts {axis} data={counts} />
     </div>
   </div>
-{:else if info}
+{:else}
   <div class="row max-width mx-auto text-center mt-5">
     <div class="fs-1"></div>
     <div class="fs-3">Now loading...</div>
     <div class="mt-4">読み込み中</div>
-  </div>
-{:else}
-  <div class="row max-width mx-auto text-center mt-5">
-    <div class="fs-1">404</div>
-    <div class="fs-3">Not Found</div>
-    <div class="mt-4">ページが見つかりません</div>
   </div>
 {/if}
 
