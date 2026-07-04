@@ -23,9 +23,9 @@ $: specRows = [
   { label: "水系名", value: "野洲田川水系" },
   { label: "河川名", value: info.river_name },
   { label: "観測所", value: "野洲田川定点観測所" },
-  { label: "所在地", value: info.relay_url },
+  { label: "所在地", value: info.relay_url, className: "spec-url" },
   { label: "観測項目", value: "流速（投稿数）" },
-  { label: "観測方式", value: "テレメータ（自動観測・毎分）" },
+  { label: "観測方式", value: "テレメータ（自動観測・毎分）", className: "spec-wrap" },
   { label: "ライブカメラ", value: info.live_cam ? "○" : "✕" },
   { label: "観測システム", value: "流速ちゃん", link: systemUrl },
   {
@@ -107,11 +107,27 @@ $: specRows = [
   .spec-wide-container {
     display: none;
   }
-  /* 見出しは折り返さず、値セルは折り返して 960px 幅に収める */
-  .spec-table-wide th {
-    white-space: nowrap;
-  }
+  /* 見出しと短い値は折り返さず、長い値（所在地の URL・観測方式）だけ
+     折り返しを許可して 960px 幅に収める */
+  .spec-table-wide th,
   .spec-table-wide td {
+    white-space: nowrap;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+  .spec-table-wide td.spec-url,
+  .spec-table-wide td.spec-wrap {
+    white-space: normal;
+  }
+  /* 標準的な値なら1行で収まる幅を確保（長いリレーURLのみ折り返す） */
+  .spec-table-wide td.spec-url {
+    min-width: 8.5em;
+  }
+  .spec-table-wide td.spec-wrap {
+    min-width: 15em;
+  }
+  .spec-table-wide td.spec-url,
+  .spec-table-narrow td.spec-url {
     word-break: break-all;
   }
   .spec-table-narrow th {

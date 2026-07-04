@@ -30,6 +30,7 @@ function buildRows(axis: number[], data: number[]): Row[] {
 $: formatted = buildRows(axis, data);
 </script>
 
+<div class="datatable-root">
 <div class="table-label">
   <span>観測値</span>
   <span class="unit-note">(単位: 投稿/10分)</span>
@@ -64,6 +65,7 @@ $: formatted = buildRows(axis, data);
     </tbody>
   </table>
 </div>
+</div>
 
 <style>
   .table-container {
@@ -72,9 +74,21 @@ $: formatted = buildRows(axis, data);
     font-size: 12px;
     border: 1px solid #000;
   }
+  /* PC ではグラフ列の高さに合わせて表を収め、表内でスクロールさせる */
   @media (min-width: 768px) {
+    .datatable-root {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0.75rem;
+      right: 0.75rem;
+      display: flex;
+      flex-direction: column;
+    }
     .table-container {
-      height: 60vh;
+      flex: 1 1 auto;
+      min-height: 0;
+      height: auto;
     }
   }
 
