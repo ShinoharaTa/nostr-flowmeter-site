@@ -8,38 +8,82 @@ const operationClasses = {
   欠測: "text-danger",
   過去ログ: "text-secondary",
 } as const;
+
+const systemUrl =
+  "https://nostx.shino3.net/npub150qnaaxfan8auqdajvn292cgk2khm3tl8dmakamj878z44a6yntqk7uktv";
+
+type SpecRow = {
+  label: string;
+  value: string;
+  link?: string;
+  className?: string;
+};
+
+$: specRows = [
+  { label: "水系名", value: "野洲田川水系" },
+  { label: "河川名", value: info.river_name },
+  { label: "観測所", value: "野洲田川定点観測所" },
+  { label: "所在地", value: info.relay_url },
+  { label: "観測項目", value: "流速（投稿数）" },
+  { label: "観測方式", value: "テレメータ（自動観測・毎分）" },
+  { label: "ライブカメラ", value: info.live_cam ? "○" : "✕" },
+  { label: "観測システム", value: "流速ちゃん", link: systemUrl },
+  {
+    label: "稼働状況",
+    value: operation,
+    className: operationClasses[operation],
+  },
+] satisfies SpecRow[];
 </script>
 
-<table>
-  <thead>
-    <tr class="bg-sub">
-      <th><span>水系名</span></th>
-      <th><span>河川名</span></th>
-      <th><span>観測所</span></th>
-      <th><span>ライブカメラ</span></th>
-      <th><span>観測システム</span></th>
-      <th><span>稼働状況</span></th>
-    </tr>
-  </thead>
+<!-- md 以上: 見出し行 + 値行の横並び表 -->
+<div class="spec-wide-container">
+  <table class="spec-table spec-table-wide">
+    <thead>
+      <tr class="bg-sub">
+        {#each specRows as row}
+          <th>{row.label}</th>
+        {/each}
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        {#each specRows as row}
+          <td class={row.className ?? ""}>
+            {#if row.link}
+              <a href={row.link} class="text-primary" target="_blank" rel="noopener noreferrer"
+                >{row.value}</a
+              >
+            {:else}
+              {row.value}
+            {/if}
+          </td>
+        {/each}
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- md 未満: 「項目 | 値」の2列縦表 -->
+<table class="spec-table spec-table-narrow">
   <tbody>
-    <tr>
-      <td><span>野洲田川水系</span></td>
-      <td><span>{info.river_name}</span></td>
-      <td><span>野洲田川定点観測所</span></td>
-      <td><span>{info.live_cam ? "○" : "✕"}</span></td>
-      <td
-        ><span
-          ><a
-            href="https://nostx.shino3.net/npub150qnaaxfan8auqdajvn292cgk2khm3tl8dmakamj878z44a6yntqk7uktv"
-            class="text-primary"
-            target="_blank" rel="noopener noreferrer">流速ちゃん</a
-          ></span
-        ></td
-      >
-      <td class={operationClasses[operation]}><span>{operation}</span></td>
-    </tr>
+    {#each specRows as row}
+      <tr>
+        <th class="bg-sub" scope="row">{row.label}</th>
+        <td class={row.className ?? ""}>
+          {#if row.link}
+            <a href={row.link} class="text-primary" target="_blank" rel="noopener noreferrer"
+              >{row.value}</a
+            >
+          {:else}
+            {row.value}
+          {/if}
+        </td>
+      </tr>
+    {/each}
   </tbody>
 </table>
+
 {#if info.live_cam}
   <div class="text-end mt-2">
     <a href={info.live_cam_url} target="_blank" rel="noopener noreferrer" class="text-danger"
@@ -49,27 +93,38 @@ const operationClasses = {
 {/if}
 
 <style>
-  table {
+  .spec-table {
     width: 100%;
     border: 1px solid #000;
-    writing-mode: vertical-lr;
   }
-  @media (min-width: 768px) {
-    table {
-      -ms-writing-mode: initial;
-      writing-mode: initial;
-    }
-  }
-  td,
-  th {
+  .spec-table td,
+  .spec-table th {
     padding: 2px 7px;
     border: 1px solid #000;
     text-align: center;
     height: 1.5rem;
   }
-  td > span,
-  th > span {
-    writing-mode: horizontal-tb;
+  .spec-wide-container {
+    display: none;
+  }
+  .spec-table-wide td,
+  .spec-table-wide th {
     white-space: nowrap;
+  }
+  .spec-table-narrow th {
+    width: 40%;
+    white-space: nowrap;
+  }
+  .spec-table-narrow td {
+    word-break: break-all;
+  }
+  @media (min-width: 768px) {
+    .spec-wide-container {
+      display: block;
+      overflow-x: auto;
+    }
+    .spec-table-narrow {
+      display: none;
+    }
   }
 </style>
