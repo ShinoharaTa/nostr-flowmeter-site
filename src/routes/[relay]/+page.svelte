@@ -12,6 +12,9 @@ import type { PageData } from "./$types";
 export let data: PageData;
 
 const REFRESH_INTERVAL_MS = 5 * 60 * 1000;
+const MISSING_THRESHOLD_SEC = 30 * 60;
+
+type Operation = "計測中" | "欠測" | "過去ログ";
 
 let axis: number[] | null = null;
 let counts: number[] | null = null;
@@ -21,6 +24,7 @@ let radioSelection = "0";
 let requestId = 0;
 let lastUpdated: Date | null = null;
 let refreshTimer: ReturnType<typeof setInterval> | null = null;
+let operation: Operation = "計測中";
 
 $: info = data.info;
 $: syncControls(data.date);
@@ -80,6 +84,15 @@ onDestroy(() => {
   }
 });
 
+// 最終観測時刻が閾値より古ければ「欠測」、過去ログ表示時は判定しない
+function judgeOperation(date: string | null, axisData: number[]): Operation {
+  if (date) return "過去ログ";
+  if (axisData.length === 0) return "欠測";
+  const latest = Math.max(...axisData);
+  const nowSec = Math.floor(Date.now() / 1000);
+  return nowSec - latest > MISSING_THRESHOLD_SEC ? "欠測" : "計測中";
+}
+
 // silent: 自動更新用。既存表示を維持したまま裏で取得し、成功時のみ差し替える
 async function fetchData(
   relayKey: string,
@@ -108,6 +121,7 @@ async function fetchData(
     counts = relayKey in result.data ? result.data[relayKey] : [];
     status = "ready";
     lastUpdated = new Date();
+    operation = judgeOperation(date, result.axis);
   } catch (e) {
     if (id !== requestId) return;
     console.error("Failed to fetch graph data:", e);
@@ -193,7 +207,7 @@ const selectDate = () => {
 
 {#if status === "ready" && axis && counts}
   <div class="max-width mx-auto container">
-    <BaseInfo {info} />
+    <BaseInfo {info} {operation} />
   </div>
   <div class="p-2"></div>
   <div class="row max-width mx-auto">

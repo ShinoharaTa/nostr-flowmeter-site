@@ -1,6 +1,13 @@
 <script lang="ts">
 import type { RelayItem } from "$lib/config";
 export let info: RelayItem;
+export let operation: "計測中" | "欠測" | "過去ログ" = "計測中";
+
+const operationClasses = {
+  計測中: "text-success",
+  欠測: "text-danger",
+  過去ログ: "text-secondary",
+} as const;
 </script>
 
 <table>
@@ -29,7 +36,7 @@ export let info: RelayItem;
           ></span
         ></td
       >
-      <td class="text-success"><span>計測中</span></td>
+      <td class={operationClasses[operation]}><span>{operation}</span></td>
     </tr>
   </tbody>
 </table>
