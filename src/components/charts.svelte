@@ -14,6 +14,7 @@ import {
 import "chartjs-adapter-date-fns";
 import { fromUnixTime } from "date-fns";
 import { onDestroy, onMount } from "svelte";
+import { FLOW_LEVELS } from "$lib/config";
 export let axis: number[];
 export let data: number[];
 
@@ -44,6 +45,9 @@ const movingAverage = (values: number[], windowSize: number): number[] =>
     return sum / windowSize;
   });
 
+// 流速水準線(ツールチップには表示しない)
+const LEVEL_LINE_LABELS = ["流速注意水準", "氾濫危険水準"];
+
 const buildChartData = (axis: number[], data: number[]) => ({
   labels: axis.map((item) => fromUnixTime(item)),
   datasets: [
@@ -54,6 +58,22 @@ const buildChartData = (axis: number[], data: number[]) => ({
       cubicInterpolationMode: "monotone" as const,
       borderColor: "#113285",
       borderWidth: 1.2,
+      pointStyle: false as const,
+    },
+    {
+      type: "line" as const,
+      label: "流速注意水準",
+      data: axis.map(() => FLOW_LEVELS.attention),
+      borderColor: "#d4a017",
+      borderWidth: 1.5,
+      pointStyle: false as const,
+    },
+    {
+      type: "line" as const,
+      label: "氾濫危険水準",
+      data: axis.map(() => FLOW_LEVELS.danger),
+      borderColor: "#dc3545",
+      borderWidth: 1.5,
       pointStyle: false as const,
     },
     {
@@ -77,6 +97,12 @@ onMount(() => {
       animation: false,
       responsive: true,
       maintainAspectRatio: false,
+      plugins: {
+        tooltip: {
+          filter: (item) =>
+            !LEVEL_LINE_LABELS.includes(item.dataset.label ?? ""),
+        },
+      },
       scales: {
         x: {
           type: "time",
@@ -92,6 +118,7 @@ onMount(() => {
           },
         },
         y: {
+          suggestedMax: FLOW_LEVELS.danger * 1.1,
           title: {
             display: true,
             text: "投稿数 (posts/10min)",
